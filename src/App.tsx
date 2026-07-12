@@ -1,20 +1,25 @@
 import { useMemo, useState } from 'react'
-import { ArrowRight, BookOpen, Check, ChevronRight, CircleDot, Compass, LockKeyhole, Map, Orbit, Radio, Route, Sparkles, Target, TrendingUp, Zap } from 'lucide-react'
+import { ArrowRight, Award, BookOpen, Check, ChevronRight, CircleDot, Compass, Home as HomeIcon, Library, LockKeyhole, Map, Orbit, PenLine, Radio, Route, Sparkles, Target, TrendingUp, UserRound, Zap } from 'lucide-react'
 import { mapEdges, mapNodes, milestones, quests, site, skillBranches, stages, type Quest } from './data/site'
 import hydrogenSpinFlip from '../pic/Hydrogen-SpinFlip.svg.webp'
 
-type View = 'overview' | 'map' | 'quests' | 'skills' | 'progression'
-const nav: { id: View; label: string }[] = [
-  { id: 'overview', label: 'OVERVIEW' }, { id: 'map', label: 'WORLD MAP' },
-  { id: 'quests', label: 'QUEST LOG' }, { id: 'skills', label: 'SKILL TREE' },
-  { id: 'progression', label: 'PROGRESSION' },
+type View = 'home' | 'map' | 'skills' | 'quests' | 'achievements' | 'knowledge' | 'character' | 'devlog'
+const nav: { id: View; label: string; icon: React.ReactNode }[] = [
+  { id: 'home', label: 'HOME', icon: <HomeIcon size={12} /> },
+  { id: 'map', label: 'RESEARCH MAP', icon: <Map size={12} /> },
+  { id: 'skills', label: 'SKILL TREE', icon: <Zap size={12} /> },
+  { id: 'quests', label: 'QUEST LOG', icon: <BookOpen size={12} /> },
+  { id: 'achievements', label: 'ACHIEVEMENTS', icon: <Award size={12} /> },
+  { id: 'knowledge', label: 'KNOWLEDGE BASE', icon: <Library size={12} /> },
+  { id: 'character', label: 'CHARACTER', icon: <UserRound size={12} /> },
+  { id: 'devlog', label: 'DEV LOG', icon: <PenLine size={12} /> },
 ]
 
 function Shell({ view, setView, children }: { view: View; setView: (v: View) => void; children: React.ReactNode }) {
   return <main>
     <nav className="topbar appbar" aria-label="主导航">
-      <button className="brand brand-button" onClick={() => setView('overview')}>xiii<span>·</span></button>
-      <div className="nav-links app-nav">{nav.map(item => <button className={view === item.id ? 'selected' : ''} key={item.id} onClick={() => setView(item.id)}>{item.label}</button>)}</div>
+      <button className="brand brand-button" onClick={() => setView('home')}>xiii<span>·</span></button>
+      <div className="nav-links app-nav">{nav.map(item => <button className={view === item.id ? 'selected' : ''} key={item.id} onClick={() => setView(item.id)}>{item.icon}{item.label}</button>)}</div>
       <div className="signal"><span /> SIGNAL ONLINE</div>
     </nav>
     {children}
@@ -26,7 +31,7 @@ function PageHead({ code, title, subtitle }: { code: string; title: string; subt
   return <header className="page-head"><p className="eyebrow">{code} / RESEARCH NAVIGATION SYSTEM</p><h1>{title}</h1><p>{subtitle}</p></header>
 }
 
-function Overview({ go }: { go: (v: View) => void }) {
+function Home({ go }: { go: (v: View) => void }) {
   const next = quests.find(q => q.kind === 'MAIN')!
   return <>
     <section className="hero dashboard-hero">
@@ -54,14 +59,14 @@ function Overview({ go }: { go: (v: View) => void }) {
       <article className="next-quest-panel"><div className="panel-kicker"><Target size={17} /><span>NEXT QUEST / 下一步任务</span></div><p className="quest-code">{next.code} · MAIN QUEST</p><h2>{next.nextAction}</h2><p>{next.purpose}</p><button onClick={() => go('quests')}>打开任务攻略 <ChevronRight size={16} /></button></article>
       <article className="route-panel"><div className="panel-kicker"><Route size={17} /><span>MISSION ROUTE</span></div>{stages.map((s, i) => <div className={`route-row ${s.state}`} key={s.name}><span>{s.state === 'complete' ? <Check size={14} /> : String(i + 1).padStart(2,'0')}</span><div><strong>{s.name}</strong><small>{s.note}</small></div></div>)}</article>
     </section>
-    <section className="section quick-nav"><button onClick={() => go('map')}><Map /><span>WORLD MAP<small>防止迷路的世界地图</small></span><ArrowRight /></button><button onClick={() => go('skills')}><Zap /><span>SKILL TREE<small>查看当前可升级技能</small></span><ArrowRight /></button><button onClick={() => go('progression')}><TrendingUp /><span>PROGRESSION<small>查看长期成长反馈</small></span><ArrowRight /></button></section>
+    <section className="section quick-nav"><button onClick={() => go('map')}><Map /><span>RESEARCH MAP<small>防止迷路的世界地图</small></span><ArrowRight /></button><button onClick={() => go('skills')}><Zap /><span>SKILL TREE<small>查看当前可升级技能</small></span><ArrowRight /></button><button onClick={() => go('character')}><TrendingUp /><span>CHARACTER STATUS<small>查看长期成长反馈</small></span><ArrowRight /></button></section>
   </>
 }
 
 function WorldMap() {
   const [selected, setSelected] = useState(mapNodes.find(n => n.status === 'current')!)
   const nodeById = useMemo(() => Object.fromEntries(mapNodes.map(n => [n.id, n])), [])
-  return <section className="workspace section"><PageHead code="01" title="World Map" subtitle="把开放世界拆成可探索区域；当前位置始终可见，远期方向保持存在但不会干扰当前主线。" />
+  return <section className="workspace section"><PageHead code="01" title="Research Map" subtitle="把开放世界拆成可探索区域；当前位置始终可见，远期方向保持存在但不会干扰当前主线。" />
     <div className="world-layout"><div className="world-board">
       <div className="map-legend"><span><i className="mastered" />MASTERED</span><span><i className="current" />YOU ARE HERE</span><span><i className="available" />AVAILABLE</span><span><i className="locked" />LOCKED</span></div>
       <svg className="edge-layer" viewBox="0 0 100 100" preserveAspectRatio="none">{mapEdges.map(([a,b]) => <line key={a+b} x1={nodeById[a].x} y1={nodeById[a].y} x2={nodeById[b].x} y2={nodeById[b].y} />)}</svg>
@@ -90,17 +95,60 @@ function SkillTree() {
   </section>
 }
 
-function Progression() {
+function CharacterStatus() {
   const completed = quests.filter(q => q.status === 'complete').length
-  return <section className="workspace section"><PageHead code="04" title="Progression" subtitle="把反馈周期从几年缩短到每周：记录证据、技能升级、完成交付物和关键里程碑。" />
+  return <section className="workspace section"><PageHead code="06" title="Character Status" subtitle="角色面板集中呈现等级、经验、职业、当前状态与长期成长轨迹。把科研反馈周期从几年缩短到每周。" />
     <div className="progress-summary"><article><span>LEVEL</span><strong>0{site.level}</strong><small>RADIO EXPLORER</small></article><article className="exp-card"><span>TOTAL EXPERIENCE</span><strong>{site.exp} <i>/ {site.nextLevelExp} EXP</i></strong><div className="progress-track"><i style={{ width: `${site.exp/site.nextLevelExp*100}%` }} /></div></article><article><span>QUESTS COMPLETE</span><strong>{String(completed).padStart(2,'0')}</strong><small>FRAMEWORK STARTED</small></article></div>
     <div className="progress-layout"><div className="timeline"><p className="label">LONG-TERM TRAJECTORY</p>{milestones.map((m, i) => <div className={`milestone ${m.state}`} key={m.title}><span>{m.state === 'complete' ? <Check /> : i + 1}</span><div><small>{m.date}</small><h3>{m.title}</h3><p>{m.note}</p></div></div>)}</div><aside className="evidence-panel"><p className="label">GROWTH FEEDBACK LOOP</p><h2>行动必须留下证据。</h2><ol><li><BookOpen />完成一次学习或分析</li><li><Sparkles />留下图、代码、笔记或汇报</li><li><Zap />更新技能等级与任务状态</li><li><Orbit />复盘下一条最短路径</li></ol><div className="weekly-box"><small>THIS WEEK</small><strong>完成第一个带坐标与单位的 Moment 0 图</strong><span>奖励：+80 EXP</span></div></aside></div>
   </section>
 }
 
+function Achievements() {
+  const achievements = [
+    { code: 'A-001', title: '进入射电宇宙', note: '加入脉冲星与中性氢射电课题组', date: '2026.07', unlocked: true },
+    { code: 'A-002', title: '建立第一张科研地图', note: '完成世界地图、技能树与任务系统框架', date: '2026.07', unlocked: true },
+    { code: 'A-003', title: 'First Cube', note: '独立读取并检查一个公开 H I 数据立方', date: 'LOCKED', unlocked: false },
+    { code: 'A-004', title: 'Figure Reproducer', note: '复现一张论文关键图并解释差异', date: 'LOCKED', unlocked: false },
+    { code: 'A-005', title: 'Question Found', note: '形成第一个可执行的 H I 科学问题', date: 'LOCKED', unlocked: false },
+    { code: 'A-006', title: 'First Author', note: '完成第一篇一作论文', date: 'BOSS', unlocked: false },
+  ]
+  return <section className="workspace section"><PageHead code="04" title="Achievements" subtitle="只记录有真实证据的里程碑。成就不是装饰，而是提醒自己已经走过哪些路。" /><div className="achievement-grid">{achievements.map((a, i) => <article className={`achievement-card ${a.unlocked ? 'unlocked' : 'locked'}`} key={a.code}><div className="achievement-medal">{a.unlocked ? <Award /> : <LockKeyhole />}</div><span>{a.code} · {a.date}</span><h2>{a.title}</h2><p>{a.note}</p><small>{a.unlocked ? `UNLOCKED · +${100 + i * 40} EXP` : 'PREREQUISITE NOT MET'}</small></article>)}</div></section>
+}
+
+function KnowledgeBase() {
+  const entries = [
+    { code: 'HI-001', title: 'H I 21 cm 基础', category: 'PHYSICS', note: '自旋翻转、柱密度、光深与亮温。', progress: '3 NOTES' },
+    { code: 'DATA-001', title: 'FITS & WCS', category: 'DATA', note: 'Header、坐标轴、单位与速度定义。', progress: '5 NOTES' },
+    { code: 'CUBE-001', title: 'Spectral Cube', category: 'METHOD', note: '噪声、通道图、谱线、Moment 与 PV 图。', progress: 'IN PROGRESS' },
+    { code: 'OBS-001', title: 'Radio Observation', category: 'OBSERVATION', note: '波束、灵敏度、系统温度、标定与 RFI。', progress: '4 NOTES' },
+    { code: 'GAL-001', title: 'H I Galaxy Science', category: 'SCIENCE', note: '气体质量、标度关系、环境与气体循环。', progress: '2 NOTES' },
+    { code: 'PAPER-001', title: 'Paper Reading', category: 'LITERATURE', note: '核心文献、综述、经典结果与复现记录。', progress: '7 PAPERS' },
+  ]
+  return <section className="workspace section"><PageHead code="05" title="Knowledge Base" subtitle="把零散笔记组织成可以导航、连接到技能和任务的科研百科。当前先建立入口，后续接入真实笔记。" /><div className="knowledge-layout"><aside className="knowledge-index"><p className="label">KNOWLEDGE INDEX</p>{['ALL ENTRIES','PHYSICS','DATA','METHOD','OBSERVATION','SCIENCE','LITERATURE'].map((x,i) => <button className={i === 0 ? 'active' : ''} key={x}>{x}<span>{i === 0 ? entries.length : '·'}</span></button>)}</aside><div className="knowledge-grid">{entries.map(entry => <article className="knowledge-card" key={entry.code}><div><span>{entry.code}</span><em>{entry.category}</em></div><Library size={22} /><h2>{entry.title}</h2><p>{entry.note}</p><small>{entry.progress}</small></article>)}</div></div></section>
+}
+
+function DevLog() {
+  const logs = [
+    { version: 'v0.4', date: '2026-07-12', title: '重构网站信息架构', items: ['建立八个一级页面', 'Progression 合并到 Character Status', '新增成就、知识库与开发日志'] },
+    { version: 'v0.3', date: '2026-07-12', title: '科研 RPG 核心框架', items: ['加入 Research Map', '加入 Skill Tree 与 Quest Log', '加入长期成长反馈'] },
+    { version: 'v0.2', date: '2026-07-12', title: '确定月面钛灰视觉', items: ['对比四套太空金属配色', '选择 Lunar Titanium', '加入 H I 自旋翻转原理图'] },
+    { version: 'v0.1', date: '2026-07-12', title: 'hello astro', items: ['建立 xiii 首页', '确定研究豹身份', '搭建本地开发环境'] },
+  ]
+  return <section className="workspace section"><PageHead code="07" title="Dev Log" subtitle="记录这个科研操作系统为什么改变、改变了什么，以及下一个版本准备解决什么问题。" /><div className="devlog-list">{logs.map((log, i) => <article className="devlog-entry" key={log.version}><div className="devlog-version"><strong>{log.version}</strong><span>{log.date}</span></div><div><p className="label">{i === 0 ? 'CURRENT BUILD' : 'ARCHIVED BUILD'}</p><h2>{log.title}</h2><ul>{log.items.map(item => <li key={item}>{item}</li>)}</ul></div></article>)}</div></section>
+}
+
 function App() {
-  const [view, setView] = useState<View>('overview')
-  return <Shell view={view} setView={setView}>{view === 'overview' && <Overview go={setView} />}{view === 'map' && <WorldMap />}{view === 'quests' && <QuestLog />}{view === 'skills' && <SkillTree />}{view === 'progression' && <Progression />}</Shell>
+  const [view, setView] = useState<View>('home')
+  return <Shell view={view} setView={setView}>
+    {view === 'home' && <Home go={setView} />}
+    {view === 'map' && <WorldMap />}
+    {view === 'skills' && <SkillTree />}
+    {view === 'quests' && <QuestLog />}
+    {view === 'achievements' && <Achievements />}
+    {view === 'knowledge' && <KnowledgeBase />}
+    {view === 'character' && <CharacterStatus />}
+    {view === 'devlog' && <DevLog />}
+  </Shell>
 }
 
 export default App
