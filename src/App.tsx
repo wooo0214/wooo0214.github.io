@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ArrowRight, Award, BookOpen, Check, ChevronRight, CircleDot, Compass, Library, LockKeyhole, Map, Orbit, PenLine, Radio, Route, Sparkles, Target, TrendingUp, UserRound, Zap } from 'lucide-react'
 import { mapEdges, mapNodes, milestones, quests, site, skillBranches, stages, type Quest } from './data/site'
+import ClickSpark from './ClickSpark'
 import hydrogenSpinFlip from '../pic/Hydrogen-SpinFlip.svg.webp'
 
 type View = 'home' | 'map' | 'skills' | 'quests' | 'achievements' | 'knowledge' | 'character' | 'devlog'
@@ -230,16 +231,18 @@ function DevLog() {
 
 function App() {
   const [view, setView] = useState<View>('home')
-  return <Shell view={view} setView={setView}>
-    {view === 'home' && <Home go={setView} />}
-    {view === 'map' && <WorldMap />}
-    {view === 'skills' && <SkillTree />}
-    {view === 'quests' && <QuestLog />}
-    {view === 'achievements' && <Achievements />}
-    {view === 'knowledge' && <KnowledgeBase />}
-    {view === 'character' && <CharacterStatus />}
-    {view === 'devlog' && <DevLog />}
-  </Shell>
+  return <ClickSpark sparkColor="#D4A85A" sparkSize={13} sparkRadius={28} sparkCount={9} duration={520} extraScale={1.12}>
+    <Shell view={view} setView={setView}>
+      {view === 'home' && <Home go={setView} />}
+      {view === 'map' && <WorldMap />}
+      {view === 'skills' && <SkillTree />}
+      {view === 'quests' && <QuestLog />}
+      {view === 'achievements' && <Achievements />}
+      {view === 'knowledge' && <KnowledgeBase />}
+      {view === 'character' && <CharacterStatus />}
+      {view === 'devlog' && <DevLog />}
+    </Shell>
+  </ClickSpark>
 }
 
 export default App
