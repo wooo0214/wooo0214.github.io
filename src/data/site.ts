@@ -1,6 +1,6 @@
 export const site = {
-  name: 'xiii', greeting: 'hello astro', identity: '研究豹', identityEn: 'a seal doing research',
-  role: 'Radio Astronomy Graduate Student', focus: 'H I & Radio Astronomy',
+  name: 'Wooo', greeting: 'hello astro', identity: '研究豹', identityEn: 'a seal doing research',
+  role: 'Radio Astronomy Graduate Student', subclass: 'H I Galaxy Explorer', focus: 'H I & Radio Astronomy',
   location: 'H I 数据语言', level: 4, exp: 1320, nextLevelExp: 2000,
   mainQuest: '找到第一个可执行、可验证、数据可获得的 H I 科学问题',
   status: 'PHASE 1 · EXPLORATION ACTIVE',

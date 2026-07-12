@@ -96,9 +96,25 @@ function SkillTree() {
 }
 
 function CharacterStatus() {
-  const completed = quests.filter(q => q.status === 'complete').length
   return <section className="workspace section"><PageHead code="06" title="Character Status" subtitle="角色面板集中呈现等级、经验、职业、当前状态与长期成长轨迹。把科研反馈周期从几年缩短到每周。" />
-    <div className="progress-summary"><article><span>LEVEL</span><strong>0{site.level}</strong><small>RADIO EXPLORER</small></article><article className="exp-card"><span>TOTAL EXPERIENCE</span><strong>{site.exp} <i>/ {site.nextLevelExp} EXP</i></strong><div className="progress-track"><i style={{ width: `${site.exp/site.nextLevelExp*100}%` }} /></div></article><article><span>QUESTS COMPLETE</span><strong>{String(completed).padStart(2,'0')}</strong><small>FRAMEWORK STARTED</small></article></div>
+    <div className="character-sheet">
+      <header className="character-identity">
+        <div className="character-avatar"><span>•ᴥ•</span><small>SUBJECT XIII</small></div>
+        <dl>
+          <div><dt>Name</dt><dd>{site.name}</dd></div>
+          <div><dt>Class</dt><dd>{site.role}</dd></div>
+          <div><dt>Subclass</dt><dd>{site.subclass}</dd></div>
+          <div><dt>Level</dt><dd>{site.level}</dd></div>
+          <div className="character-exp"><dt>EXP</dt><dd>{site.exp} / {site.nextLevelExp}</dd><div className="progress-track"><i style={{ width: `${site.exp/site.nextLevelExp*100}%` }} /></div></div>
+        </dl>
+      </header>
+      <div className="character-lists">
+        <section className="status-list main-status"><p className="label">MAIN QUEST</p><label><span className="status-box" />Find first science problem</label><small>{site.mainQuest}</small></section>
+        <section className="status-list"><p className="label">ACTIVE QUESTS</p><label><span className="status-box" />Read 5 H I review papers</label><label><span className="status-box" />Learn FITS cube operations</label><label><span className="status-box" />Reproduce one paper figure</label></section>
+        <section className="status-list"><p className="label">UNLOCKED SKILLS</p><label className="checked"><span className="status-box"><Check size={12} /></span>Python</label><label className="checked"><span className="status-box"><Check size={12} /></span>Linux</label><label className="checked"><span className="status-box"><Check size={12} /></span>Git</label><label><span className="status-box" />Pulsar Timing</label><label><span className="status-box" />H I Kinematics</label></section>
+      </div>
+    </div>
+    <div className="character-section-title"><span>LONG-TERM PROGRESSION</span><p>角色状态之外的长期成长轨迹</p></div>
     <div className="progress-layout"><div className="timeline"><p className="label">LONG-TERM TRAJECTORY</p>{milestones.map((m, i) => <div className={`milestone ${m.state}`} key={m.title}><span>{m.state === 'complete' ? <Check /> : i + 1}</span><div><small>{m.date}</small><h3>{m.title}</h3><p>{m.note}</p></div></div>)}</div><aside className="evidence-panel"><p className="label">GROWTH FEEDBACK LOOP</p><h2>行动必须留下证据。</h2><ol><li><BookOpen />完成一次学习或分析</li><li><Sparkles />留下图、代码、笔记或汇报</li><li><Zap />更新技能等级与任务状态</li><li><Orbit />复盘下一条最短路径</li></ol><div className="weekly-box"><small>THIS WEEK</small><strong>完成第一个带坐标与单位的 Moment 0 图</strong><span>奖励：+80 EXP</span></div></aside></div>
   </section>
 }
@@ -107,10 +123,11 @@ function Achievements() {
   const achievements = [
     { code: 'A-001', title: '进入射电宇宙', note: '加入脉冲星与中性氢射电课题组', date: '2026.07', unlocked: true },
     { code: 'A-002', title: '建立第一张科研地图', note: '完成世界地图、技能树与任务系统框架', date: '2026.07', unlocked: true },
-    { code: 'A-003', title: 'First Cube', note: '独立读取并检查一个公开 H I 数据立方', date: 'LOCKED', unlocked: false },
-    { code: 'A-004', title: 'Figure Reproducer', note: '复现一张论文关键图并解释差异', date: 'LOCKED', unlocked: false },
-    { code: 'A-005', title: 'Question Found', note: '形成第一个可执行的 H I 科学问题', date: 'LOCKED', unlocked: false },
-    { code: 'A-006', title: 'First Author', note: '完成第一篇一作论文', date: 'BOSS', unlocked: false },
+    { code: 'A-003', title: '完成研一课程学习', note: '完成模式识别、辐射过程、恒星、星系、观测、光谱、射电与宇宙学等 12 门研究生课程。', date: '研一', unlocked: true },
+    { code: 'A-004', title: 'First Cube', note: '独立读取并检查一个公开 H I 数据立方', date: 'LOCKED', unlocked: false },
+    { code: 'A-005', title: 'Figure Reproducer', note: '复现一张论文关键图并解释差异', date: 'LOCKED', unlocked: false },
+    { code: 'A-006', title: 'Question Found', note: '形成第一个可执行的 H I 科学问题', date: 'LOCKED', unlocked: false },
+    { code: 'A-007', title: 'First Author', note: '完成第一篇一作论文', date: 'BOSS', unlocked: false },
   ]
   return <section className="workspace section"><PageHead code="04" title="Achievements" subtitle="只记录有真实证据的里程碑。成就不是装饰，而是提醒自己已经走过哪些路。" /><div className="achievement-grid">{achievements.map((a, i) => <article className={`achievement-card ${a.unlocked ? 'unlocked' : 'locked'}`} key={a.code}><div className="achievement-medal">{a.unlocked ? <Award /> : <LockKeyhole />}</div><span>{a.code} · {a.date}</span><h2>{a.title}</h2><p>{a.note}</p><small>{a.unlocked ? `UNLOCKED · +${100 + i * 40} EXP` : 'PREREQUISITE NOT MET'}</small></article>)}</div></section>
 }
@@ -123,8 +140,20 @@ function KnowledgeBase() {
     { code: 'OBS-001', title: 'Radio Observation', category: 'OBSERVATION', note: '波束、灵敏度、系统温度、标定与 RFI。', progress: '4 NOTES' },
     { code: 'GAL-001', title: 'H I Galaxy Science', category: 'SCIENCE', note: '气体质量、标度关系、环境与气体循环。', progress: '2 NOTES' },
     { code: 'PAPER-001', title: 'Paper Reading', category: 'LITERATURE', note: '核心文献、综述、经典结果与复现记录。', progress: '7 PAPERS' },
+    { code: 'COURSE-01', title: '模式识别与机器学习', category: 'COURSEWORK', note: '模式分类、特征提取与机器学习基础方法。', progress: 'COMPLETED' },
+    { code: 'COURSE-02', title: '天体物理中的辐射过程', category: 'COURSEWORK', note: '辐射机制、辐射转移及其天体物理应用。', progress: 'COMPLETED' },
+    { code: 'COURSE-03', title: '恒星物理基础', category: 'COURSEWORK', note: '恒星结构、演化与基本物理过程。', progress: 'COMPLETED' },
+    { code: 'COURSE-04', title: '星系天文学', category: 'COURSEWORK', note: '星系结构、性质、形成与演化基础。', progress: 'COMPLETED' },
+    { code: 'COURSE-05', title: '实测天文基础', category: 'COURSEWORK', note: '天文测量、误差分析与观测方法基础。', progress: 'COMPLETED' },
+    { code: 'COURSE-06', title: '多波段天文观测与数据处理', category: 'COURSEWORK', note: '跨波段观测技术及数据处理流程。', progress: 'COMPLETED' },
+    { code: 'COURSE-07', title: '星际介质天文学', category: 'COURSEWORK', note: '星际气体、尘埃及其物理与化学过程。', progress: 'COMPLETED' },
+    { code: 'COURSE-08', title: '星系动力学', category: 'COURSEWORK', note: '星系中的轨道、势场与动力学演化。', progress: 'COMPLETED' },
+    { code: 'COURSE-09', title: '天体光谱学', category: 'COURSEWORK', note: '光谱形成、谱线诊断与物理参数测量。', progress: 'COMPLETED' },
+    { code: 'COURSE-10', title: '射电天文导论', category: 'COURSEWORK', note: '射电辐射、望远镜、观测与数据基础。', progress: 'COMPLETED' },
+    { code: 'COURSE-11', title: '观测宇宙学', category: 'COURSEWORK', note: '宇宙学观测证据、距离测量与结构演化。', progress: 'COMPLETED' },
+    { code: 'COURSE-12', title: '银河系前沿', category: 'COURSEWORK', note: '银河系结构、成员与当前前沿问题。', progress: 'COMPLETED' },
   ]
-  return <section className="workspace section"><PageHead code="05" title="Knowledge Base" subtitle="把零散笔记组织成可以导航、连接到技能和任务的科研百科。当前先建立入口，后续接入真实笔记。" /><div className="knowledge-layout"><aside className="knowledge-index"><p className="label">KNOWLEDGE INDEX</p>{['ALL ENTRIES','PHYSICS','DATA','METHOD','OBSERVATION','SCIENCE','LITERATURE'].map((x,i) => <button className={i === 0 ? 'active' : ''} key={x}>{x}<span>{i === 0 ? entries.length : '·'}</span></button>)}</aside><div className="knowledge-grid">{entries.map(entry => <article className="knowledge-card" key={entry.code}><div><span>{entry.code}</span><em>{entry.category}</em></div><Library size={22} /><h2>{entry.title}</h2><p>{entry.note}</p><small>{entry.progress}</small></article>)}</div></div></section>
+  return <section className="workspace section"><PageHead code="05" title="Knowledge Base" subtitle="把零散笔记、课程基础与科研方法组织成可以导航、连接到技能和任务的科研百科。" /><div className="knowledge-layout"><aside className="knowledge-index"><p className="label">KNOWLEDGE INDEX</p>{['ALL ENTRIES','COURSEWORK','PHYSICS','DATA','METHOD','OBSERVATION','SCIENCE','LITERATURE'].map((x,i) => <button className={i === 0 ? 'active' : ''} key={x}>{x}<span>{i === 0 ? entries.length : x === 'COURSEWORK' ? 12 : '·'}</span></button>)}</aside><div className="knowledge-grid">{entries.map(entry => <article className={`knowledge-card ${entry.category === 'COURSEWORK' ? 'course-card' : ''}`} key={entry.code}><div><span>{entry.code}</span><em>{entry.category}</em></div><Library size={22} /><h2>{entry.title}</h2><p>{entry.note}</p><small>{entry.progress}</small></article>)}</div></div></section>
 }
 
 function DevLog() {
