@@ -5,13 +5,13 @@ import hydrogenSpinFlip from '../pic/Hydrogen-SpinFlip.svg.webp'
 
 type View = 'home' | 'map' | 'skills' | 'quests' | 'achievements' | 'knowledge' | 'character' | 'devlog'
 const nav: { id: View; label: string; icon: React.ReactNode }[] = [
-  { id: 'map', label: 'RESEARCH MAP', icon: <Map size={12} /> },
-  { id: 'skills', label: 'SKILL TREE', icon: <Zap size={12} /> },
-  { id: 'quests', label: 'QUEST LOG', icon: <BookOpen size={12} /> },
-  { id: 'achievements', label: 'ACHIEVEMENTS', icon: <Award size={12} /> },
-  { id: 'knowledge', label: 'KNOWLEDGE BASE', icon: <Library size={12} /> },
-  { id: 'character', label: 'CHARACTER STATUS', icon: <UserRound size={13} /> },
-  { id: 'devlog', label: 'DEV LOG', icon: <PenLine size={12} /> },
+  { id: 'map', label: 'RESEARCH MAP', icon: <Map size={19} /> },
+  { id: 'skills', label: 'SKILL TREE', icon: <Zap size={19} /> },
+  { id: 'quests', label: 'QUEST LOG', icon: <BookOpen size={19} /> },
+  { id: 'achievements', label: 'ACHIEVEMENTS', icon: <Award size={19} /> },
+  { id: 'knowledge', label: 'KNOWLEDGE BASE', icon: <Library size={19} /> },
+  { id: 'character', label: 'CHARACTER STATUS', icon: <UserRound size={20} /> },
+  { id: 'devlog', label: 'DEV LOG', icon: <PenLine size={19} /> },
 ]
 
 const hobbyGifs = [
@@ -24,7 +24,7 @@ function Shell({ view, setView, children }: { view: View; setView: (v: View) => 
   return <main>
     <nav className="topbar appbar" aria-label="Main navigation">
       <button className="brand brand-button" onClick={() => setView('home')}>xiii<span>·</span></button>
-      <div className="nav-links app-nav">{nav.map(item => <button className={view === item.id ? 'selected' : ''} key={item.id} onClick={() => setView(item.id)}>{item.icon}{item.label}</button>)}</div>
+      <div className="nav-links app-nav">{nav.map(item => <button className={view === item.id ? 'selected' : ''} key={item.id} onClick={() => setView(item.id)} aria-label={item.label} title={item.label}>{item.icon}<span className="sr-only">{item.label}</span></button>)}</div>
       <div className="signal"><span /> SIGNAL ONLINE</div>
     </nav>
     {children}

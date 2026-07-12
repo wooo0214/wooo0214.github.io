@@ -116,11 +116,13 @@ footer > p { justify-self: end; margin: 0; }
 .footer-hobbies img { width: 38px; height: 28px; object-fit: cover; display: block; border: 0; background: transparent; filter: saturate(.82) contrast(1.08); box-shadow: none; }
 
 button { font: inherit; color: inherit; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .appbar { position: fixed; top: 0; left: 0; right: 0; width: 100%; max-width: none; z-index: 1000; padding-inline: 28px; background: rgba(11,12,14,.94); backdrop-filter: blur(18px); box-shadow: 0 10px 35px rgba(0,0,0,.22); }
 .brand-button, .app-nav button { border: 0; background: transparent; cursor: pointer; }
 .brand-button { padding: 0; }
-.app-nav { gap: 11px; }
-.app-nav button { color: #aeb0ad; font: 500 12px 'DM Mono', monospace; letter-spacing: .02em; padding: 26px 1px 23px; border-bottom: 2px solid transparent; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.app-nav { gap: 26px; }
+.app-nav button { width: 44px; height: 76px; color: #aeb0ad; padding: 0; border-bottom: 2px solid transparent; display: grid; place-items: center; white-space: nowrap; transition: color .18s ease, border-color .18s ease, transform .18s ease; }
+.app-nav button:hover { transform: translateY(-1px); }
 .app-nav button:hover, .app-nav button.selected { color: var(--ink); border-bottom-color: var(--cyan); }
 .workspace { min-height: calc(100vh - 76px); padding-top: 72px; }
 .page-head { border-bottom: 1px solid var(--line); padding-bottom: 35px; margin-bottom: 38px; }
