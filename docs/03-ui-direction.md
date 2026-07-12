@@ -15,18 +15,18 @@
 - restrained RPG
 - readable dashboard
 
-## 当前采用配色：Lunar Titanium / 月面钛灰
+## 当前采用配色：Meteorite Nickel / 陨铁镍灰
 
 ```text
-Canvas         #0B0C0E  月面黑灰背景
-Surface 1      #121417  暗钛表面
-Surface 2      #1A1D21  金属卡片
-Metal Edge     #343940  金属边缘
-Metal Highlight#697079  低亮反光
-Text Primary   #ECEAE5  暖白文字
-Text Muted     #979A9E  中性灰文字
-Quest Amber    #D4A85A  主线与当前位置
-Signal         #A7B7A2  在线及完成状态
+Canvas         #0D0C0B  暖黑背景
+Surface 1      #161412  镍铁暗面
+Surface 2      #211E1A  陨铁卡片
+Metal Edge     #403B35  暖灰边缘
+Metal Highlight#746B61  材料反光
+Text Primary   #EEE9DF  米白文字
+Text Muted     #9F978C  暖灰文字
+Signal Copper  #C9835B  活动、在线及当前位置
+Signal Neutral #B9B59B  完成状态
 ```
 
 对比度必须先保证正文阅读，再追求氛围。正文不要使用低对比度灰色或发光字体。
