@@ -48,29 +48,29 @@ function Home({ go }: { go: (v: View) => void }) {
           <p className="label">SIGNAL ORIGIN / 21 CM H I LINE</p>
           <span className="frequency">1420.405<span>MHz</span></span>
           <h2>Hydrogen spin-flip transition</h2>
-          <p>When the electron and proton spins in ground-state neutral hydrogen change from parallel to antiparallel, a photon with a wavelength of about 21 cm is emitted. This line is the fundamental signal used to map neutral hydrogen gas in galaxies.</p>
+          <p>A spin flip in neutral hydrogen emits a 21 cm photon—the key tracer for mapping galactic H I gas.</p>
           <div className="signal-facts"><span>λ ≈ 21.1 cm</span><span>NEUTRAL HYDROGEN</span><span>RADIO LINE</span></div>
           <p className="image-credit">Image source: <a href="https://en.wikipedia.org/wiki/Hydrogen_line" target="_blank" rel="noreferrer">Wikipedia</a></p>
         </figcaption>
       </figure>
     </section>
     <section className="section overview-grid">
-      <article className="next-quest-panel"><div className="panel-kicker"><Target size={17} /><span>NEXT QUEST / NEXT ACTION</span></div><p className="quest-code">{next.code} · MAIN QUEST</p><h2>{next.nextAction}</h2><p>{next.purpose}</p><button onClick={() => go('quests')}>Open Quest Walkthrough <ChevronRight size={16} /></button></article>
+      <article className="next-quest-panel"><div className="panel-kicker"><Target size={17} /><span>NEXT ACTION</span></div><p className="quest-code">{next.code} · MAIN QUEST</p><h2>{next.nextAction}</h2><button onClick={() => go('quests')}>Open Quest <ChevronRight size={16} /></button></article>
       <article className="route-panel"><div className="panel-kicker"><Route size={17} /><span>MISSION ROUTE</span></div>{stages.map((s, i) => <div className={`route-row ${s.state}`} key={s.name}><span>{s.state === 'complete' ? <Check size={14} /> : String(i + 1).padStart(2,'0')}</span><div><strong>{s.name}</strong><small>{s.note}</small></div></div>)}</article>
     </section>
-    <section className="section quick-nav"><button onClick={() => go('map')}><Map /><span>RESEARCH MAP<small>A world map that keeps the main path visible</small></span><ArrowRight /></button><button onClick={() => go('skills')}><Zap /><span>SKILL TREE<small>View skills available for upgrade</small></span><ArrowRight /></button><button onClick={() => go('character')}><TrendingUp /><span>CHARACTER STATUS<small>Review long-term progression feedback</small></span><ArrowRight /></button></section>
+    <section className="section quick-nav"><button onClick={() => go('map')}><Map /><span>RESEARCH MAP<small>See the main path</small></span><ArrowRight /></button><button onClick={() => go('skills')}><Zap /><span>SKILL TREE<small>Choose an upgrade</small></span><ArrowRight /></button><button onClick={() => go('character')}><TrendingUp /><span>CHARACTER STATUS<small>Review progress</small></span><ArrowRight /></button></section>
   </>
 }
 
 function WorldMap() {
   const [selected, setSelected] = useState(mapNodes.find(n => n.status === 'current')!)
   const nodeById = useMemo(() => Object.fromEntries(mapNodes.map(n => [n.id, n])), [])
-  return <section className="workspace section"><PageHead code="01" title="Research Map" subtitle="Break the open world into explorable regions. The current location stays visible while distant directions remain present without distracting from the main quest." />
+  return <section className="workspace section"><PageHead code="01" title="Research Map" subtitle="See where you are—and where the main quest leads next." />
     <div className="world-layout"><div className="world-board">
       <div className="map-legend"><span><i className="mastered" />MASTERED</span><span><i className="current" />YOU ARE HERE</span><span><i className="available" />AVAILABLE</span><span><i className="locked" />LOCKED</span></div>
       <svg className="edge-layer" viewBox="0 0 100 100" preserveAspectRatio="none">{mapEdges.map(([a,b]) => <line key={a+b} x1={nodeById[a].x} y1={nodeById[a].y} x2={nodeById[b].x} y2={nodeById[b].y} />)}</svg>
       {mapNodes.map(node => <button key={node.id} onClick={() => setSelected(node)} style={{ left: `${node.x}%`, top: `${node.y}%` }} className={`research-node ${node.status} ${selected.id === node.id ? 'selected' : ''}`}><span>{node.status === 'locked' ? <LockKeyhole size={13} /> : node.status === 'current' ? <CircleDot size={14} /> : <Radio size={13} />}</span><strong>{node.label}</strong><small>{node.zone}</small></button>)}
-    </div><aside className="detail-panel"><p className="label">SELECTED REGION</p><div className={`status-chip ${selected.status}`}>{selected.status}</div><h2>{selected.label}</h2><p>{selected.detail}</p>{selected.status === 'current' && <div className="here-callout"><CircleDot size={18} /><div><strong>YOU ARE HERE</strong><span>The main quest is advancing in this region</span></div></div>}<h3>REGION ACTIONS</h3><ul><li>Review related skills and prerequisites</li><li>Attach one task with a concrete deliverable</li><li>Update exploration status after collecting evidence</li></ul></aside></div>
+    </div><aside className="detail-panel"><p className="label">SELECTED REGION</p><div className={`status-chip ${selected.status}`}>{selected.status}</div><h2>{selected.label}</h2><p>{selected.detail}</p>{selected.status === 'current' && <div className="here-callout"><CircleDot size={18} /><div><strong>YOU ARE HERE</strong><span>Main quest active</span></div></div>}<h3>REGION ACTIONS</h3><ul><li>Review skills and prerequisites</li><li>Set one concrete deliverable</li><li>Update status with evidence</li></ul></aside></div>
   </section>
 }
 
@@ -79,7 +79,7 @@ function QuestLog() {
   const [filter, setFilter] = useState<'ALL' | Quest['kind']>('ALL')
   const selected = quests.find(q => q.code === selectedCode)!
   const visible = quests.filter(q => filter === 'ALL' || q.kind === filter)
-  return <section className="workspace section"><PageHead code="02" title="Quest Log" subtitle="Every quest must state why it matters, what counts as complete, what deliverable remains, and the next action for today." />
+  return <section className="workspace section"><PageHead code="03" title="Quest Log" subtitle="Track the goal, completion criteria, deliverable, and next action." />
     <div className="filter-row">{(['ALL','MAIN','ACTIVE','SIDE'] as const).map(f => <button className={filter === f ? 'active' : ''} onClick={() => setFilter(f)} key={f}>{f}</button>)}</div>
     <div className="quest-layout"><div className="quest-list">{visible.map(q => <button className={`quest-list-item ${selectedCode === q.code ? 'selected' : ''}`} onClick={() => setSelectedCode(q.code)} key={q.code}><div><span>{q.code}</span><em>{q.kind}</em></div><h3>{q.title}</h3><div className="progress-track"><i style={{ width: `${q.progress}%` }} /></div><small>{q.progress}% · {q.status}</small></button>)}</div>
       <article className="quest-detail"><div className="quest-detail-head"><span>{selected.code} · {selected.kind} QUEST</span><strong>{selected.progress}%</strong></div><h2>{selected.title}</h2><p className="quest-purpose">{selected.purpose}</p><div className="next-action"><Compass size={20} /><div><small>NEXT ACTION</small><strong>{selected.nextAction}</strong></div></div><h3>COMPLETION CRITERIA</h3><ul className="check-list">{selected.doneWhen.map(item => <li key={item}><span /><p>{item}</p></li>)}</ul><div className="quest-meta"><div><small>DELIVERABLE</small><strong>{selected.deliverable}</strong></div><div><small>REWARD</small><strong>{selected.reward}</strong></div></div></article>
@@ -88,14 +88,14 @@ function QuestLog() {
 }
 
 function SkillTree() {
-  return <section className="workspace section"><PageHead code="03" title="Skill Tree" subtitle="Levels are not measures of self-worth; they represent verifiable proficiency. Current upgrades are amber, while locked skills show their prerequisites." />
+  return <section className="workspace section"><PageHead code="02" title="Skill Tree" subtitle="Levels reflect demonstrated skill. Amber marks current upgrades." />
     <div className="skill-toolbar"><span><i className="current" /> CURRENT UPGRADE</span><span><i className="mastered" /> UNLOCKED</span><span><i className="locked" /> PREREQUISITE NEEDED</span></div>
     <div className="skill-tree">{skillBranches.map((branch, bi) => <section className="skill-branch" key={branch.name}><header><span>0{bi + 1}</span><h2>{branch.name}</h2></header><div className="skill-chain">{branch.skills.map((skill, i) => <div className={`skill-node ${skill.status}`} key={skill.name}>{i > 0 && <i className="skill-connector" />}<div className="skill-orb">{skill.status === 'locked' ? <LockKeyhole size={18} /> : <Zap size={18} />}</div><div><small>LV.{skill.level} / 5</small><h3>{skill.name}</h3><p>{skill.proof}</p></div></div>)}</div></section>)}</div>
   </section>
 }
 
 function CharacterStatus() {
-  return <section className="workspace section"><PageHead code="06" title="Character Status" subtitle="A clear character sheet for level, experience, class, current state, and long-term trajectory—shortening the research feedback cycle from years to weeks." />
+  return <section className="workspace section"><PageHead code="06" title="Character Status" subtitle="Your level, experience, current state, and trajectory." />
     <div className="character-sheet">
       <header className="character-identity">
         <div className="character-avatar"><span>•ᴥ•</span><small>SUBJECT XIII</small></div>
@@ -113,7 +113,7 @@ function CharacterStatus() {
         <section className="status-list"><p className="label">UNLOCKED SKILLS</p><label className="checked"><span className="status-box"><Check size={12} /></span>Python</label><label className="checked"><span className="status-box"><Check size={12} /></span>Linux</label><label className="checked"><span className="status-box"><Check size={12} /></span>Git</label><label><span className="status-box" />Pulsar Timing</label><label><span className="status-box" />H I Kinematics</label></section>
       </div>
     </div>
-    <div className="character-section-title"><span>LONG-TERM PROGRESSION</span><p>The long-term trajectory beyond the current character sheet</p></div>
+    <div className="character-section-title"><span>LONG-TERM PROGRESSION</span><p>Beyond the current level</p></div>
     <div className="progress-layout"><div className="timeline"><p className="label">LONG-TERM TRAJECTORY</p>{milestones.map((m, i) => <div className={`milestone ${m.state}`} key={m.title}><span>{m.state === 'complete' ? <Check /> : i + 1}</span><div><small>{m.date}</small><h3>{m.title}</h3><p>{m.note}</p></div></div>)}</div><aside className="evidence-panel"><p className="label">GROWTH FEEDBACK LOOP</p><h2>Every action should leave evidence.</h2><ol><li><BookOpen />Complete one learning or analysis session</li><li><Sparkles />Leave a figure, code, note, or presentation</li><li><Zap />Update the skill level and quest status</li><li><Orbit />Review the next shortest path</li></ol><div className="weekly-box"><small>THIS WEEK</small><strong>Create the first Moment 0 map with coordinates and units</strong><span>Reward: +80 EXP</span></div></aside></div>
   </section>
 }
@@ -128,7 +128,7 @@ function Achievements() {
     { code: 'A-006', title: 'Question Found', note: 'Form the first feasible H I science question.', date: 'LOCKED', unlocked: false },
     { code: 'A-007', title: 'First Author', note: 'Complete the first first-author paper.', date: 'BOSS', unlocked: false },
   ]
-  return <section className="workspace section"><PageHead code="04" title="Achievements" subtitle="Only milestones supported by real evidence belong here. Achievements are not decoration; they show how far the journey has already gone." /><div className="achievement-grid">{achievements.map((a, i) => <article className={`achievement-card ${a.unlocked ? 'unlocked' : 'locked'}`} key={a.code}><div className="achievement-medal">{a.unlocked ? <Award /> : <LockKeyhole />}</div><span>{a.code} · {a.date}</span><h2>{a.title}</h2><p>{a.note}</p><small>{a.unlocked ? `UNLOCKED · +${100 + i * 40} EXP` : 'PREREQUISITE NOT MET'}</small></article>)}</div></section>
+  return <section className="workspace section"><PageHead code="04" title="Achievements" subtitle="Evidence-backed milestones from the research journey." /><div className="achievement-grid">{achievements.map((a, i) => <article className={`achievement-card ${a.unlocked ? 'unlocked' : 'locked'}`} key={a.code}><div className="achievement-medal">{a.unlocked ? <Award /> : <LockKeyhole />}</div><span>{a.code} · {a.date}</span><h2>{a.title}</h2><p>{a.note}</p><small>{a.unlocked ? `UNLOCKED · +${100 + i * 40} EXP` : 'PREREQUISITE NOT MET'}</small></article>)}</div></section>
 }
 
 function KnowledgeBase() {
@@ -152,7 +152,7 @@ function KnowledgeBase() {
     { code: 'COURSE-11', title: 'Observational Cosmology', category: 'COURSEWORK', note: 'Cosmological evidence, distance measurements, and structure evolution.', progress: 'COMPLETED' },
     { code: 'COURSE-12', title: 'Frontiers of the Milky Way', category: 'COURSEWORK', note: 'Milky Way structure, components, and current frontier questions.', progress: 'COMPLETED' },
   ]
-  return <section className="workspace section"><PageHead code="05" title="Knowledge Base" subtitle="Organise notes, coursework, and research methods into a navigable research encyclopedia connected to skills and quests." /><div className="knowledge-layout"><aside className="knowledge-index"><p className="label">KNOWLEDGE INDEX</p>{['ALL ENTRIES','COURSEWORK','PHYSICS','DATA','METHOD','OBSERVATION','SCIENCE','LITERATURE'].map((x,i) => <button className={i === 0 ? 'active' : ''} key={x}>{x}<span>{i === 0 ? entries.length : x === 'COURSEWORK' ? 12 : '·'}</span></button>)}</aside><div className="knowledge-grid">{entries.map(entry => <article className={`knowledge-card ${entry.category === 'COURSEWORK' ? 'course-card' : ''}`} key={entry.code}><div><span>{entry.code}</span><em>{entry.category}</em></div><Library size={22} /><h2>{entry.title}</h2><p>{entry.note}</p><small>{entry.progress}</small></article>)}</div></div></section>
+  return <section className="workspace section"><PageHead code="05" title="Knowledge Base" subtitle="Notes, coursework, and methods—linked to skills and quests." /><div className="knowledge-layout"><aside className="knowledge-index"><p className="label">KNOWLEDGE INDEX</p>{['ALL ENTRIES','COURSEWORK','PHYSICS','DATA','METHOD','OBSERVATION','SCIENCE','LITERATURE'].map((x,i) => <button className={i === 0 ? 'active' : ''} key={x}>{x}<span>{i === 0 ? entries.length : x === 'COURSEWORK' ? 12 : '·'}</span></button>)}</aside><div className="knowledge-grid">{entries.map(entry => <article className={`knowledge-card ${entry.category === 'COURSEWORK' ? 'course-card' : ''}`} key={entry.code}><div><span>{entry.code}</span><em>{entry.category}</em></div><Library size={22} /><h2>{entry.title}</h2><p>{entry.note}</p><small>{entry.progress}</small></article>)}</div></div></section>
 }
 
 function DevLog() {
@@ -162,7 +162,7 @@ function DevLog() {
     { version: 'v0.2', date: '2026-07-12', title: 'Selected Lunar Titanium', items: ['Compared four space-metal palettes', 'Selected Lunar Titanium', 'Added the H I spin-flip diagram'] },
     { version: 'v0.1', date: '2026-07-12', title: 'hello astro', items: ['Built the xiii home page', 'Defined the Research Seal identity', 'Set up the local development environment'] },
   ]
-  return <section className="workspace section"><PageHead code="07" title="Dev Log" subtitle="A record of why this research operating system changed, what changed, and which problem the next version will solve." /><div className="devlog-list">{logs.map((log, i) => <article className="devlog-entry" key={log.version}><div className="devlog-version"><strong>{log.version}</strong><span>{log.date}</span></div><div><p className="label">{i === 0 ? 'CURRENT BUILD' : 'ARCHIVED BUILD'}</p><h2>{log.title}</h2><ul>{log.items.map(item => <li key={item}>{item}</li>)}</ul></div></article>)}</div></section>
+  return <section className="workspace section"><PageHead code="07" title="Dev Log" subtitle="What changed, why, and what comes next." /><div className="devlog-list">{logs.map((log, i) => <article className="devlog-entry" key={log.version}><div className="devlog-version"><strong>{log.version}</strong><span>{log.date}</span></div><div><p className="label">{i === 0 ? 'CURRENT BUILD' : 'ARCHIVED BUILD'}</p><h2>{log.title}</h2><ul>{log.items.map(item => <li key={item}>{item}</li>)}</ul></div></article>)}</div></section>
 }
 
 function App() {
