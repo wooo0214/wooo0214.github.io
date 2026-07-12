@@ -1,17 +1,16 @@
 import { useMemo, useState } from 'react'
-import { ArrowRight, Award, BookOpen, Check, ChevronRight, CircleDot, Compass, Home as HomeIcon, Library, LockKeyhole, Map, Orbit, PenLine, Radio, Route, Sparkles, Target, TrendingUp, UserRound, Zap } from 'lucide-react'
+import { ArrowRight, Award, BookOpen, Check, ChevronRight, CircleDot, Compass, Library, LockKeyhole, Map, Orbit, PenLine, Radio, Route, Sparkles, Target, TrendingUp, UserRound, Zap } from 'lucide-react'
 import { mapEdges, mapNodes, milestones, quests, site, skillBranches, stages, type Quest } from './data/site'
 import hydrogenSpinFlip from '../pic/Hydrogen-SpinFlip.svg.webp'
 
 type View = 'home' | 'map' | 'skills' | 'quests' | 'achievements' | 'knowledge' | 'character' | 'devlog'
 const nav: { id: View; label: string; icon: React.ReactNode }[] = [
-  { id: 'home', label: 'HOME', icon: <HomeIcon size={12} /> },
   { id: 'map', label: 'RESEARCH MAP', icon: <Map size={12} /> },
   { id: 'skills', label: 'SKILL TREE', icon: <Zap size={12} /> },
   { id: 'quests', label: 'QUEST LOG', icon: <BookOpen size={12} /> },
   { id: 'achievements', label: 'ACHIEVEMENTS', icon: <Award size={12} /> },
   { id: 'knowledge', label: 'KNOWLEDGE BASE', icon: <Library size={12} /> },
-  { id: 'character', label: 'CHARACTER', icon: <UserRound size={12} /> },
+  { id: 'character', label: 'CHARACTER STATUS', icon: <UserRound size={13} /> },
   { id: 'devlog', label: 'DEV LOG', icon: <PenLine size={12} /> },
 ]
 
