@@ -22,6 +22,29 @@ const hobbyGifs = [
   { label: 'BASEBALL / SOFTBALL', src: '/hobbies/basoball.gif' },
 ]
 
+function CatchBall({ children }: { children: React.ReactNode }) {
+  const [ballSide, setBallSide] = useState<'left' | 'right'>('left')
+  const [flight, setFlight] = useState<'left-to-right' | 'right-to-left' | null>(null)
+
+  const throwFrom = (side: 'left' | 'right') => {
+    if (flight || ballSide !== side) return
+    const nextFlight = side === 'left' ? 'left-to-right' : 'right-to-left'
+    const nextSide = side === 'left' ? 'right' : 'left'
+    setFlight(nextFlight)
+    window.setTimeout(() => {
+      setBallSide(nextSide)
+      setFlight(null)
+    }, 620)
+  }
+
+  return <div className={`catch-ball ${flight ?? ''}`} aria-label="Baseball catch toy">
+    <button className={`catch-glove left ${ballSide === 'left' && !flight ? 'has-ball' : ''}`} onClick={() => throwFrom('left')} aria-label="Throw from left glove">🧤</button>
+    <div className="catch-hobbies">{children}</div>
+    <span className={`catch-ball-emoji ${ballSide} ${flight ? 'flying' : ''}`} aria-hidden="true">🥎</span>
+    <button className={`catch-glove right ${ballSide === 'right' && !flight ? 'has-ball' : ''}`} onClick={() => throwFrom('right')} aria-label="Throw from right glove">🧤</button>
+  </div>
+}
+
 function Shell({ view, setView, children }: { view: View; setView: (v: View) => void; children: React.ReactNode }) {
   return <main>
     <nav className="topbar appbar" aria-label="Main navigation">
@@ -32,7 +55,7 @@ function Shell({ view, setView, children }: { view: View; setView: (v: View) => 
     {children}
     <footer>
       <div className="footer-id"><strong>xiii</strong><span>Research Seal's Radio Astronomy Archive</span></div>
-      <div className="footer-hobbies">{hobbyGifs.map(item => <img key={item.label} src={item.src} alt={`${item.label} GIF`} loading="lazy" />)}</div>
+      <div className="footer-hobbies"><CatchBall>{hobbyGifs.map(item => <img key={item.label} src={item.src} alt={`${item.label} GIF`} loading="lazy" />)}</CatchBall></div>
       <p>OBSERVING · LEARNING · ITERATING</p>
     </footer>
   </main>
