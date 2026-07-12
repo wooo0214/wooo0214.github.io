@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { ArrowRight, Award, BookOpen, Check, ChevronRight, CircleDot, Compass, Library, LockKeyhole, Map, Orbit, PenLine, Radio, Route, Sparkles, Target, TrendingUp, UserRound, Zap } from 'lucide-react'
 import { mapEdges, mapNodes, milestones, quests, site, skillBranches, stages, type Quest } from './data/site'
 import ClickSpark from './ClickSpark'
+import Shuffle from './Shuffle'
 import hydrogenSpinFlip from '../pic/Hydrogen-SpinFlip.svg.webp'
 
 type View = 'home' | 'map' | 'skills' | 'quests' | 'achievements' | 'knowledge' | 'character' | 'devlog'
@@ -38,7 +39,7 @@ function Shell({ view, setView, children }: { view: View; setView: (v: View) => 
 }
 
 function PageHead({ code, title, subtitle }: { code: string; title: string; subtitle: string }) {
-  return <header className="page-head"><p className="eyebrow">{code} / RESEARCH NAVIGATION SYSTEM</p><h1>{title}</h1><p>{subtitle}</p></header>
+  return <header className="page-head"><p className="eyebrow">{code} / RESEARCH NAVIGATION SYSTEM</p><Shuffle text={title} tag="h1" shuffleTimes={9} duration={560} /><p>{subtitle}</p></header>
 }
 
 function Home({ go }: { go: (v: View) => void }) {

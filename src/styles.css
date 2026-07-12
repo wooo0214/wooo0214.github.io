@@ -132,6 +132,9 @@ button { font: inherit; color: inherit; }
 .page-head { border-bottom: 1px solid var(--line); padding-bottom: 35px; margin-bottom: 38px; }
 .page-head h1 { font-size: clamp(58px, 7vw, 104px); margin: 18px 0 25px; line-height: .9; }
 .page-head > p:last-child { max-width: 760px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.75; }
+.shuffle-title { display: block; color: var(--ink); visibility: hidden; white-space: normal; word-wrap: break-word; font-variant-numeric: tabular-nums; }
+.shuffle-title.is-ready { visibility: visible; }
+.shuffle-title span { display: inline-block; min-width: 0; }
 .dashboard-hero { min-height: 620px; }
 .status-deck { z-index: 2; width: min(430px, 100%); justify-self: end; display: grid; gap: 12px; }
 .you-are-here, .mini-character, .next-quest-panel, .route-panel, .detail-panel, .quest-detail, .quest-list-item, .skill-branch, .progress-summary article, .timeline, .evidence-panel { border: 1px solid var(--metal-edge); background: linear-gradient(180deg, rgba(255,255,255,.025), transparent 25%), rgba(18,20,23,.86); box-shadow: inset 0 1px rgba(255,255,255,.025); }
