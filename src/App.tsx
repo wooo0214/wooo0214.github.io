@@ -14,6 +14,12 @@ const nav: { id: View; label: string; icon: React.ReactNode }[] = [
   { id: 'devlog', label: 'DEV LOG', icon: <PenLine size={12} /> },
 ]
 
+const hobbyGifs = [
+  { label: 'HIKING', src: '/hobbies/hiking.gif' },
+  { label: 'CYCLING', src: '/hobbies/cycling.gif' },
+  { label: 'BASEBALL / SOFTBALL', src: '/hobbies/basoball.gif' },
+]
+
 function Shell({ view, setView, children }: { view: View; setView: (v: View) => void; children: React.ReactNode }) {
   return <main>
     <nav className="topbar appbar" aria-label="Main navigation">
@@ -22,7 +28,11 @@ function Shell({ view, setView, children }: { view: View; setView: (v: View) => 
       <div className="signal"><span /> SIGNAL ONLINE</div>
     </nav>
     {children}
-    <footer><div><strong>xiii</strong><span>Research Seal's Radio Astronomy Archive</span></div><p>OBSERVING · LEARNING · ITERATING</p></footer>
+    <footer>
+      <div className="footer-id"><strong>xiii</strong><span>Research Seal's Radio Astronomy Archive</span></div>
+      <div className="footer-hobbies">{hobbyGifs.map(item => <img key={item.label} src={item.src} alt={`${item.label} GIF`} loading="lazy" />)}</div>
+      <p>OBSERVING · LEARNING · ITERATING</p>
+    </footer>
   </main>
 }
 

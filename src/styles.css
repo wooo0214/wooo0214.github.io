@@ -32,7 +32,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 main { position: relative; overflow-x: hidden; padding-top: 76px; }
 .topbar { height: 76px; max-width: 1440px; margin: 0 auto; padding: 0 42px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
-.brand { font-size: 25px; font-weight: 600; letter-spacing: -.06em; }
+.brand { flex: 0 0 auto; display: inline-flex; align-items: center; color: var(--ink); font-size: 25px; font-weight: 600; letter-spacing: -.06em; line-height: 1; }
 .brand span { color: var(--cyan); }
 .nav-links { display: flex; gap: 34px; font: 500 11px 'DM Mono', monospace; letter-spacing: .15em; color: #aaa9a4; }
 .nav-links a:hover { color: white; }
@@ -109,12 +109,16 @@ h1 { font-size: clamp(74px, 10vw, 154px); line-height: .83; letter-spacing: -.07
 .n1 { left: 4%; top: 46%; }.n2 { left: 42%; top: 28%; }.n3 { left: 46%; top: 71%; }.n4 { right: 2%; top: 14%; }
 .link { position: absolute; height: 1px; background: #4a4e53; transform-origin: left; z-index: 1; }
 .l1 { width: 170px; left: 19%; top: 50%; transform: rotate(-21deg); }.l2 { width: 150px; left: 54%; top: 33%; transform: rotate(-10deg); }.l3 { width: 110px; left: 54%; top: 37%; transform: rotate(82deg); }
-footer { max-width: 1440px; margin: 0 auto; padding: 38px 42px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; color: var(--muted); }
-footer div { display: flex; gap: 16px; align-items: baseline; } footer strong { color: white; font-size: 24px; } footer span, footer p { font: 10px 'DM Mono', monospace; }
+footer { max-width: 1440px; margin: 0 auto; padding: 34px 42px; border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr); gap: 28px; align-items: center; color: var(--muted); }
+.footer-id { display: flex; gap: 16px; align-items: baseline; } footer strong { color: white; font-size: 24px; } footer span, footer p { font: 10px 'DM Mono', monospace; }
+footer > p { justify-self: end; margin: 0; }
+.footer-hobbies { display: flex; justify-content: center; gap: 8px; }
+.footer-hobbies img { width: 38px; height: 28px; object-fit: cover; display: block; border: 0; background: transparent; filter: saturate(.82) contrast(1.08); box-shadow: none; }
 
 button { font: inherit; color: inherit; }
-.appbar { position: fixed; inset: 0 0 auto 0; width: 100%; max-width: none; z-index: 50; padding-inline: 28px; background: rgba(11,12,14,.94); backdrop-filter: blur(18px); box-shadow: 0 10px 35px rgba(0,0,0,.22); }
+.appbar { position: fixed; top: 0; left: 0; right: 0; width: 100%; max-width: none; z-index: 1000; padding-inline: 28px; background: rgba(11,12,14,.94); backdrop-filter: blur(18px); box-shadow: 0 10px 35px rgba(0,0,0,.22); }
 .brand-button, .app-nav button { border: 0; background: transparent; cursor: pointer; }
+.brand-button { padding: 0; }
 .app-nav { gap: 11px; }
 .app-nav button { color: #aeb0ad; font: 500 12px 'DM Mono', monospace; letter-spacing: .02em; padding: 26px 1px 23px; border-bottom: 2px solid transparent; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
 .app-nav button:hover, .app-nav button.selected { color: var(--ink); border-bottom-color: var(--cyan); }
@@ -257,7 +261,10 @@ button { font: inherit; color: inherit; }
   .section { padding: 75px 20px; }
   .mission-grid, .quest-grid, .map-canvas { grid-template-columns: 1fr; }
   .map-canvas { padding: 30px; } .nodes { min-height: 310px; }
-  footer { margin: 0 20px; padding: 30px 0; align-items: flex-start; gap: 20px; } footer div { flex-direction: column; }
+  footer { margin: 0 20px; padding: 30px 0; grid-template-columns: 1fr; align-items: flex-start; gap: 20px; }
+  .footer-id { flex-direction: column; gap: 8px; }
+  footer > p { justify-self: start; }
+  .footer-hobbies { justify-content: flex-start; flex-wrap: wrap; }
 }
 
 @media (max-width: 520px) {
@@ -270,5 +277,5 @@ button { font: inherit; color: inherit; }
   .stage-panel { padding: 26px 22px; }
   .map-canvas { min-height: 620px; }
   .nodes { margin-top: 20px; }
-  footer { flex-direction: column; }
+  .footer-hobbies img { width: 38px; height: 28px; }
 }
