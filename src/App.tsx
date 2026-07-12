@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ArrowRight, BookOpen, Check, ChevronRight, CircleDot, Compass, LockKeyhole, Map, Orbit, Radio, Route, Sparkles, Target, TrendingUp, Zap } from 'lucide-react'
 import { mapEdges, mapNodes, milestones, quests, site, skillBranches, stages, type Quest } from './data/site'
+import hydrogenSpinFlip from '../pic/Hydrogen-SpinFlip.svg.webp'
 
 type View = 'overview' | 'map' | 'quests' | 'skills' | 'progression'
 const nav: { id: View; label: string }[] = [
@@ -36,6 +37,19 @@ function Overview({ go }: { go: (v: View) => void }) {
       </div>
     </section>
     <section className="ticker"><span>{site.status}</span><span>YOU ARE HERE · H I DATA</span><span>NEXT · MOMENT 0</span><span>1420.405 MHz</span></section>
+    <section className="section science-signal">
+      <figure className="spin-flip-figure">
+        <div className="spin-flip-image"><img src={hydrogenSpinFlip} alt="中性氢原子质子与电子发生自旋翻转并发射 21 厘米谱线光子的示意图" /></div>
+        <figcaption>
+          <p className="label">SIGNAL ORIGIN / 21 CM H I LINE</p>
+          <span className="frequency">1420.405<span>MHz</span></span>
+          <h2>Hydrogen spin-flip transition</h2>
+          <p>当中性氢基态中电子与质子的自旋方向由平行变为反平行时，会释放对应波长约 21 cm 的光子。这条谱线是我们描绘星系中性氢气体的基础信号。</p>
+          <div className="signal-facts"><span>λ ≈ 21.1 cm</span><span>NEUTRAL HYDROGEN</span><span>RADIO LINE</span></div>
+          <p className="image-credit">图片来源：<a href="https://en.wikipedia.org/wiki/Hydrogen_line" target="_blank" rel="noreferrer">Wikipedia</a></p>
+        </figcaption>
+      </figure>
+    </section>
     <section className="section overview-grid">
       <article className="next-quest-panel"><div className="panel-kicker"><Target size={17} /><span>NEXT QUEST / 下一步任务</span></div><p className="quest-code">{next.code} · MAIN QUEST</p><h2>{next.nextAction}</h2><p>{next.purpose}</p><button onClick={() => go('quests')}>打开任务攻略 <ChevronRight size={16} /></button></article>
       <article className="route-panel"><div className="panel-kicker"><Route size={17} /><span>MISSION ROUTE</span></div>{stages.map((s, i) => <div className={`route-row ${s.state}`} key={s.name}><span>{s.state === 'complete' ? <Check size={14} /> : String(i + 1).padStart(2,'0')}</span><div><strong>{s.name}</strong><small>{s.note}</small></div></div>)}</article>

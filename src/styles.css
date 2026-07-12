@@ -149,6 +149,22 @@ button { font: inherit; color: inherit; }
 .quick-nav button { min-height: 130px; padding: 28px; border: 1px solid var(--metal-edge); background: var(--surface-1); display: grid; grid-template-columns: auto 1fr auto; text-align: left; align-items: center; gap: 18px; cursor: pointer; transition: .2s; }
 .quick-nav button:hover { border-color: rgba(212,168,90,.5); transform: translateY(-3px); }.quick-nav button > svg:first-child { color: var(--cyan); }.quick-nav button > svg:last-child { color: var(--muted); }
 .quick-nav span { font: 500 12px 'DM Mono', monospace; }.quick-nav small { display: block; color: var(--muted); margin-top: 8px; font: 11px 'Noto Sans SC', sans-serif; }
+.science-signal { padding-top: 80px; padding-bottom: 0; }
+.spin-flip-figure { margin: 0; min-height: 500px; display: grid; grid-template-columns: 1.05fr .95fr; border: 1px solid var(--metal-edge); background: linear-gradient(180deg, rgba(255,255,255,.025), transparent 25%), rgba(18,20,23,.86); box-shadow: inset 0 1px rgba(255,255,255,.025); }
+.spin-flip-image { min-height: 500px; overflow: hidden; display: grid; place-items: center; background: linear-gradient(145deg, #d8d5ce, #b8b7b2); border-right: 1px solid var(--metal-edge); position: relative; box-shadow: inset 0 0 0 1px rgba(255,255,255,.24), inset 0 -30px 70px rgba(52,57,64,.12); }
+.spin-flip-image::before { content: ''; position: absolute; inset: 17px; border: 1px solid rgba(52,57,64,.22); pointer-events: none; z-index: 1; }
+.spin-flip-image::after { content: 'H I · HYPERFINE TRANSITION'; position: absolute; left: 30px; bottom: 27px; color: #555a60; font: 8px 'DM Mono', monospace; letter-spacing: .13em; z-index: 2; }
+.spin-flip-image img { width: 100%; height: 100%; max-height: 500px; object-fit: contain; display: block; position: relative; z-index: 1; }
+.spin-flip-figure figcaption { padding: 50px; display: flex; flex-direction: column; justify-content: center; }
+.frequency { display: flex; align-items: baseline; gap: 10px; margin: 28px 0 8px; color: var(--ink); font: 500 clamp(45px, 5vw, 72px) 'DM Mono', monospace; letter-spacing: -.07em; }
+.frequency > span { color: var(--cyan); font-size: 13px; letter-spacing: .08em; }
+.spin-flip-figure h2 { margin: 8px 0 22px; font-size: 28px; font-weight: 500; }
+.spin-flip-figure figcaption > p:not(.label) { margin: 0; color: var(--muted); line-height: 1.8; font-size: 13px; }
+.signal-facts { display: flex; gap: 8px; margin-top: 30px; flex-wrap: wrap; }
+.signal-facts span { padding: 7px 9px; border: 1px solid var(--metal-edge); color: #aaa9a4; font: 8px 'DM Mono', monospace; letter-spacing: .08em; }
+.spin-flip-figure figcaption .image-credit { margin-top: 22px; color: #74787d; font: 9px 'DM Mono', monospace; }
+.image-credit a { color: #b9b8b3; border-bottom: 1px solid #5f646a; transition: color .2s, border-color .2s; }
+.image-credit a:hover { color: var(--cyan); border-color: var(--cyan); }
 
 .world-layout { display: grid; grid-template-columns: 1fr 320px; gap: 18px; }
 .world-board { height: 660px; position: relative; border: 1px solid var(--metal-edge); overflow: hidden; background: radial-gradient(circle at 50% 45%, rgba(105,112,121,.12), transparent 36%), linear-gradient(rgba(105,112,121,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(105,112,121,.04) 1px, transparent 1px), rgba(10,11,13,.8); background-size: auto, 50px 50px, 50px 50px; }
