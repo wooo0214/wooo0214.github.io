@@ -88,7 +88,60 @@ function QuestLog() {
 }
 
 function SkillTree() {
+  const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null)
+  const branchXs = [14, 38, 62, 86]
+  const skillYs = [34, 50, 66, 82]
+  const visualSkills = skillBranches.flatMap((branch, branchIndex) =>
+    branch.skills.map((skill, skillIndex) => ({
+      ...skill,
+      id: `${branchIndex}-${skillIndex}`,
+      branch: branch.name,
+      branchIndex,
+      skillIndex,
+      x: branchXs[branchIndex],
+      y: skillYs[skillIndex],
+    }))
+  )
+  const selectedSkill = visualSkills.find(skill => skill.id === selectedSkillId)
+  const inspectorSide = selectedSkill && selectedSkill.branchIndex >= 2 ? 'left' : 'right'
+  const inspectorStyle = selectedSkill ? {
+    '--inspector-left': `${selectedSkill.x + (inspectorSide === 'left' ? -8 : 8)}%`,
+    '--inspector-top': `${selectedSkill.y}%`,
+  } as React.CSSProperties : undefined
+
   return <section className="workspace section"><PageHead code="02" title="Skill Tree" subtitle="Levels reflect demonstrated skill. Amber marks current upgrades." />
+    <div className="skill-visual-board" onClick={() => setSelectedSkillId(null)} role="presentation">
+      <svg className="skill-visual-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        {branchXs.map((x, index) => <line key={`root-${x}`} x1="50" y1="16" x2={x} y2={skillYs[0]} className={index === 1 || index === 2 ? 'hot' : ''} />)}
+        {branchXs.map((x, branchIndex) => skillYs.slice(1).map((y, i) => <line key={`${branchIndex}-${i}`} x1={x} y1={skillYs[i]} x2={x} y2={y} className={branchIndex === 1 || branchIndex === 2 ? 'hot' : ''} />))}
+      </svg>
+      <div className="skill-core-node"><span className="seal-icon">•ᴥ•</span><strong>Research Seal</strong><small>LV.{site.level}</small></div>
+      {skillBranches.map((branch, index) => <span key={branch.name} className="skill-branch-label" style={{ left: `${branchXs[index]}%` }}>{branch.name.split('/')[0]}</span>)}
+      {visualSkills.map(skill => <button
+        key={skill.id}
+        className={`skill-visual-node ${skill.status} ${selectedSkillId === skill.id ? 'selected' : ''}`}
+        style={{ left: `${skill.x}%`, top: `${skill.y}%` }}
+        onClick={(event) => { event.stopPropagation(); setSelectedSkillId(skill.id) }}
+        aria-pressed={selectedSkillId === skill.id}
+      >
+        <span>{skill.status === 'locked' ? <LockKeyhole size={16} /> : <Zap size={16} />}</span>
+        <strong>{skill.name}</strong>
+        <small>LV.{skill.level}</small>
+      </button>)}
+      <aside className={`skill-inspector ${selectedSkill ? 'open' : ''} ${inspectorSide === 'left' ? 'side-left' : 'side-right'}`} style={inspectorStyle} onClick={(event) => event.stopPropagation()} aria-hidden={!selectedSkill}>
+        {selectedSkill && <>
+          <p className="label">SKILL POINT DETAIL</p>
+          <div className={`status-chip ${selectedSkill.status}`}>{selectedSkill.status}</div>
+          <h3>{selectedSkill.name}</h3>
+          <p>{selectedSkill.proof}</p>
+          <dl>
+            <div><dt>Branch</dt><dd>{selectedSkill.branch}</dd></div>
+            <div><dt>Level</dt><dd>{selectedSkill.level} / 5</dd></div>
+            <div><dt>State</dt><dd>{selectedSkill.status}</dd></div>
+          </dl>
+        </>}
+      </aside>
+    </div>
     <div className="skill-toolbar"><span><i className="current" /> CURRENT UPGRADE</span><span><i className="mastered" /> UNLOCKED</span><span><i className="locked" /> PREREQUISITE NEEDED</span></div>
     <div className="skill-tree">{skillBranches.map((branch, bi) => <section className="skill-branch" key={branch.name}><header><span>0{bi + 1}</span><h2>{branch.name}</h2></header><div className="skill-chain">{branch.skills.map((skill, i) => <div className={`skill-node ${skill.status}`} key={skill.name}>{i > 0 && <i className="skill-connector" />}<div className="skill-orb">{skill.status === 'locked' ? <LockKeyhole size={18} /> : <Zap size={18} />}</div><div><small>LV.{skill.level} / 5</small><h3>{skill.name}</h3><p>{skill.proof}</p></div></div>)}</div></section>)}</div>
   </section>
