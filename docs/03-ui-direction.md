@@ -15,20 +15,18 @@
 - restrained RPG
 - readable dashboard
 
-## 色彩建议
+## 当前采用配色：Lunar Titanium / 月面钛灰
 
 ```text
-Canvas        #07111F  深空背景
-Surface       #0D1B2A  卡片背景
-Surface Hover #13263A
-Text Primary  #EAF2F8
-Text Muted    #93A4B8
-Signal Cyan   #37D5D9  主要强调色
-HI Green      #76D39B  H I 分支
-Pulsar Violet #A78BFA  脉冲星分支
-Quest Amber   #F4BF50  主线与警示
-Danger        #FB7185
-Border        #24364A
+Canvas         #0B0C0E  月面黑灰背景
+Surface 1      #121417  暗钛表面
+Surface 2      #1A1D21  金属卡片
+Metal Edge     #343940  金属边缘
+Metal Highlight#697079  低亮反光
+Text Primary   #ECEAE5  暖白文字
+Text Muted     #979A9E  中性灰文字
+Quest Amber    #D4A85A  主线与当前位置
+Signal         #A7B7A2  在线及完成状态
 ```
 
 对比度必须先保证正文阅读，再追求氛围。正文不要使用低对比度灰色或发光字体。
