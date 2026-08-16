@@ -71,11 +71,11 @@ function Home({ go }: { go: (v: View) => void }) {
     <section className="hero dashboard-hero">
       <div className="hero-copy"><p className="eyebrow">XI–III / CURRENT SAVE</p><h1>{site.greeting}<span className="dot">.</span></h1><p className="intro">I am the <span>{site.identity}</span>, {site.identityEn}.<br />Searching the radio universe for questions, signals, and answers.</p></div>
       <div className="status-deck">
-        <div className="you-are-here"><div className="pulse-ring"><CircleDot size={25} /></div><p className="label">YOU ARE HERE / CURRENT LOCATION</p><h2>{site.location}</h2><span>Radio Foundations → Data Language → H I Analysis</span><button onClick={() => go('map')}>Locate on Research Map <ArrowRight size={15} /></button></div>
+        <div className="you-are-here"><div className="pulse-ring"><CircleDot size={25} /></div><p className="label">YOU ARE HERE / CURRENT LOCATION</p><h2>{site.location}</h2><span>Research Setup → FAST Data Processing → Validated Analysis</span><button onClick={() => go('map')}>Locate on Research Map <ArrowRight size={15} /></button></div>
         <div className="mini-character"><span>SUBJECT XIII</span><strong>LV. 0{site.level}</strong><small>{site.exp} / {site.nextLevelExp} EXP</small></div>
       </div>
     </section>
-    <section className="ticker"><span>{site.status}</span><span>YOU ARE HERE · H I DATA</span><span>NEXT · MOMENT 0</span><span>1420.405 MHz</span></section>
+    <section className="ticker"><span>{site.status}</span><span>YOU ARE HERE · FAST DATA</span><span>NEXT · DATA REVIEW</span><span>1420.405 MHz</span></section>
     <section className="section science-signal">
       <figure className="spin-flip-figure">
         <div className="spin-flip-image"><img src={hydrogenSpinFlip} alt="Diagram of the neutral hydrogen proton-electron spin-flip transition emitting a 21 cm photon" /></div>
@@ -196,9 +196,9 @@ function CharacterStatus() {
         </dl>
       </header>
       <div className="character-lists">
-        <section className="status-list main-status"><p className="label">MAIN QUEST</p><label><span className="status-box" />Find the first science question</label><small>{site.mainQuest}</small></section>
-        <section className="status-list"><p className="label">ACTIVE QUESTS</p><label><span className="status-box" />Read 5 H I review papers</label><label><span className="status-box" />Learn FITS cube operations</label><label><span className="status-box" />Reproduce one paper figure</label></section>
-        <section className="status-list"><p className="label">UNLOCKED SKILLS</p><label className="checked"><span className="status-box"><Check size={12} /></span>Python</label><label className="checked"><span className="status-box"><Check size={12} /></span>Linux</label><label className="checked"><span className="status-box"><Check size={12} /></span>Git</label><label><span className="status-box" />Pulsar Timing</label><label><span className="status-box" />H I Kinematics</label></section>
+        <section className="status-list main-status"><p className="label">MAIN QUEST</p><label><span className="status-box" />Process FAST data</label><small>{site.mainQuest}</small></section>
+        <section className="status-list"><p className="label">ACTIVE QUESTS</p><label><span className="status-box" />Review the FAST dataset</label><label><span className="status-box" />Document FAST data processing</label><label><span className="status-box" />Prepare a reproducible figure</label><label><span className="status-box" />Maintain a reproducible workspace</label></section>
+        <section className="status-list"><p className="label">UNLOCKED SKILLS</p><label className="checked"><span className="status-box"><Check size={12} /></span>Python</label><label className="checked"><span className="status-box"><Check size={12} /></span>Linux / Command Line</label><label className="checked"><span className="status-box"><Check size={12} /></span>Version Control</label><label className="checked"><span className="status-box"><Check size={12} /></span>FAST Data Structure</label><label className="checked"><span className="status-box"><Check size={12} /></span>Data Processing</label><label className="checked"><span className="status-box"><Check size={12} /></span>Quality Control</label><label><span className="status-box" />Validated Results</label><label><span className="status-box" />Scientific Interpretation</label></section>
       </div>
     </div>
     <div className="character-section-title"><span>LONG-TERM PROGRESSION</span><p>Beyond the current level</p></div>
@@ -211,10 +211,18 @@ function Achievements() {
     { code: 'A-001', title: 'Entered the Radio Universe', note: 'Joined a research group working on pulsars and neutral hydrogen.', date: '2026.07', unlocked: true },
     { code: 'A-002', title: 'Built the First Research Map', note: 'Completed the framework for the world map, skill tree, and quest system.', date: '2026.07', unlocked: true },
     { code: 'A-003', title: 'Completed First-Year Coursework', note: 'Completed 12 graduate courses spanning machine learning, radiation, stars, galaxies, observation, spectroscopy, radio astronomy, and cosmology.', date: 'YEAR 1', unlocked: true },
-    { code: 'A-004', title: 'First Cube', note: 'Independently read and inspect a public H I data cube.', date: 'LOCKED', unlocked: false },
-    { code: 'A-005', title: 'Figure Reproducer', note: 'Reproduce one key paper figure and explain the differences.', date: 'LOCKED', unlocked: false },
-    { code: 'A-006', title: 'Question Found', note: 'Form the first feasible H I science question.', date: 'LOCKED', unlocked: false },
-    { code: 'A-007', title: 'First Author', note: 'Complete the first first-author paper.', date: 'BOSS', unlocked: false },
+    { code: 'A-004', title: 'FAST Data Processing Started', note: 'Began processing FAST data and maintaining a private research record.', date: '2026.07', unlocked: true },
+    { code: 'A-005', title: 'Data Quality Review', note: 'Established a habit of checking supplied data and recording anomalies before interpretation.', date: '2026.08', unlocked: true },
+    { code: 'A-006', title: 'Reproducible Research Record', note: 'Organized notes, scripts, diagnostics, and derived products for ongoing work.', date: '2026.08', unlocked: true },
+    { code: 'A-007', title: 'Private Processing Checkpoint', note: 'Recorded a verified FAST data-processing checkpoint without publishing unfinished results.', date: '2026.08', unlocked: true },
+    { code: 'A-008', title: 'Research Workspace Ready', note: 'Prepared a structured workspace for continued FAST data processing.', date: '2026.07', unlocked: true },
+    { code: 'A-009', title: 'Cross-Device Lab Restored', note: 'Restored a portable research environment after a system rebuild.', date: '2026.07', unlocked: true },
+    { code: 'A-010', title: 'FAST Dataset Review', note: 'Completed a review pass over the current FAST dataset.', date: '2026.08', unlocked: true },
+    { code: 'A-011', title: 'Diagnostic Figure', note: 'Prepared an inspectable figure for a FAST data-processing checkpoint.', date: '2026.08', unlocked: true },
+    { code: 'A-012', title: 'Approved Result', note: 'Publish an approved scientific result after private processing and review.', date: 'LOCKED', unlocked: false },
+    { code: 'A-013', title: 'Validated Analysis', note: 'Complete a validated FAST data analysis.', date: 'LOCKED', unlocked: false },
+    { code: 'A-014', title: 'Research Question', note: 'Define a public, approved scientific question.', date: 'LOCKED', unlocked: false },
+    { code: 'A-015', title: 'First Author', note: 'Complete the first first-author paper.', date: 'BOSS', unlocked: false },
   ]
   return <section className="workspace section"><PageHead code="04" title="Achievements" subtitle="Evidence-backed milestones from the research journey." /><div className="achievement-grid">{achievements.map((a, i) => <article className={`achievement-card ${a.unlocked ? 'unlocked' : 'locked'}`} key={a.code}><div className="achievement-medal">{a.unlocked ? <Award /> : <LockKeyhole />}</div><span>{a.code} · {a.date}</span><h2>{a.title}</h2><p>{a.note}</p><small>{a.unlocked ? `UNLOCKED · +${100 + i * 40} EXP` : 'PREREQUISITE NOT MET'}</small></article>)}</div></section>
 }
@@ -227,6 +235,13 @@ function KnowledgeBase() {
     { code: 'OBS-001', title: 'Radio Observation', category: 'OBSERVATION', note: 'Beam, sensitivity, system temperature, calibration, and RFI.', progress: '4 NOTES' },
     { code: 'GAL-001', title: 'H I Galaxy Science', category: 'SCIENCE', note: 'Gas mass, scaling relations, environment, and gas cycling.', progress: '2 NOTES' },
     { code: 'PAPER-001', title: 'Paper Reading', category: 'LITERATURE', note: 'Core papers, reviews, classic results, and reproduction records.', progress: '7 PAPERS' },
+    { code: 'FIELD-001', title: 'FAST Data Notes', category: 'LITERATURE', note: 'Public background reading connected to ongoing FAST data processing.', progress: 'IN PROGRESS' },
+    { code: 'PHYS-002', title: 'FAST Observation Basics', category: 'PHYSICS', note: 'General concepts used to understand FAST data and radio observations.', progress: 'IN PROGRESS' },
+    { code: 'HPC-001', title: 'Research Workspace', category: 'METHOD', note: 'Organization of notes, scripts, diagnostics, and derived products.', progress: 'IN PROGRESS' },
+    { code: 'CAL-001', title: 'FAST Data Processing', category: 'METHOD', note: 'Current private work on processing FAST data.', progress: 'IN PROGRESS' },
+    { code: 'CAL-002', title: 'Data Quality Review', category: 'METHOD', note: 'General checks used to review data quality before interpretation.', progress: 'IN PROGRESS' },
+    { code: 'CAL-003', title: 'Research Record', category: 'DATA', note: 'Dates, checkpoints, assumptions, and diagnostic outputs kept for private review.', progress: 'IN PROGRESS' },
+    { code: 'TRACK-001', title: 'FAST Tracking Dataset', category: 'DATA', note: 'Ongoing processing of a FAST tracking dataset.', progress: 'IN PROGRESS' },
     { code: 'COURSE-01', title: 'Pattern Recognition & Machine Learning', category: 'COURSEWORK', note: 'Pattern classification, feature extraction, and foundational machine-learning methods.', progress: 'COMPLETED' },
     { code: 'COURSE-02', title: 'Radiative Processes in Astrophysics', category: 'COURSEWORK', note: 'Radiation mechanisms, radiative transfer, and astrophysical applications.', progress: 'COMPLETED' },
     { code: 'COURSE-03', title: 'Foundations of Stellar Physics', category: 'COURSEWORK', note: 'Stellar structure, evolution, and fundamental physical processes.', progress: 'COMPLETED' },
@@ -245,6 +260,8 @@ function KnowledgeBase() {
 
 function DevLog() {
   const logs = [
+    { version: 'v0.6', date: '2026-08-16', title: 'FAST Data Processing Update', items: ['Updated the public status to FAST data processing', 'Removed unpublished methods, internal workflow details, and specific dataset identifiers', 'Kept unfinished scientific results private'] },
+    { version: 'v0.5', date: '2026-07-27', title: 'Research Progress Update', items: ['Updated the public status to ongoing FAST data processing', 'Generalized research notes and dataset descriptions for public viewing', 'Kept internal infrastructure and unpublished details private'] },
     { version: 'v0.4', date: '2026-07-12', title: 'Rebuilt the Site Architecture', items: ['Created eight primary views', 'Merged Progression into Character Status', 'Added Achievements, Knowledge Base, and Dev Log'] },
     { version: 'v0.3', date: '2026-07-12', title: 'Research RPG Core Framework', items: ['Added Research Map', 'Added Skill Tree and Quest Log', 'Added long-term progression feedback'] },
     { version: 'v0.2', date: '2026-07-12', title: 'Selected Lunar Titanium', items: ['Compared four space-metal palettes', 'Selected Lunar Titanium', 'Added the H I spin-flip diagram'] },
