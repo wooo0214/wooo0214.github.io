@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ArrowRight, Award, BookOpen, Check, ChevronRight, CircleDot, Compass, Library, LockKeyhole, Map, Orbit, PenLine, Radio, Route, Sparkles, Target, TrendingUp, UserRound, Zap } from 'lucide-react'
 import { mapEdges, mapNodes, milestones, quests, site, skillBranches, stages, type Quest } from './data/site'
 import ClickSpark from './ClickSpark'
@@ -21,6 +21,47 @@ const hobbyGifs = [
   { label: 'CYCLING', src: '/hobbies/cycling.gif' },
   { label: 'BASEBALL / SOFTBALL', src: '/hobbies/basoball.gif' },
 ]
+
+function EntryOverlay({ onEnter }: { onEnter: () => void }) {
+  const [exiting, setExiting] = useState(false)
+  const enter = () => {
+    if (exiting) return
+    setExiting(true)
+    window.setTimeout(onEnter, 850)
+  }
+
+  useEffect(() => {
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
+        enter()
+      }
+    }
+    const handleWheel = (event: WheelEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.deltaY < 0) enter()
+    }
+    const handleViewport = () => {
+      if ((window.visualViewport?.scale ?? 1) > 1.08) enter()
+    }
+    window.addEventListener('keydown', handleKey)
+    window.addEventListener('wheel', handleWheel, { passive: true })
+    window.visualViewport?.addEventListener('resize', handleViewport)
+    return () => {
+      window.removeEventListener('keydown', handleKey)
+      window.removeEventListener('wheel', handleWheel)
+      window.visualViewport?.removeEventListener('resize', handleViewport)
+    }
+  })
+
+  return <div className={`entry-overlay ${exiting ? 'is-exiting' : ''}`} aria-hidden={exiting}>
+    <div className="entry-stars" aria-hidden="true">{Array.from({ length: 18 }, (_, index) => <i key={index} style={{ '--i': index } as React.CSSProperties} />)}</div>
+    <button className="entry-dust" onClick={enter} aria-label="Enter the research observatory">
+      <span className="entry-dust-core" />
+      <span className="entry-dust-halo" />
+    </button>
+    <div className="entry-copy"><strong>XIII</strong><span>RESEARCH OBSERVATORY</span><small>CLICK THE DUST TO ENTER · OR ZOOM IN</small></div>
+  </div>
+}
 
 function CatchBall({ children }: { children: React.ReactNode }) {
   const [ballSide, setBallSide] = useState<'left' | 'right'>('left')
@@ -272,6 +313,7 @@ function DevLog() {
 
 function App() {
   const [view, setView] = useState<View>('home')
+  const [showEntry, setShowEntry] = useState(true)
   return <ClickSpark sparkColor="#D4A85A" sparkSize={13} sparkRadius={28} sparkCount={9} duration={520} extraScale={1.12}>
     <Shell view={view} setView={setView}>
       {view === 'home' && <Home go={setView} />}
@@ -283,6 +325,7 @@ function App() {
       {view === 'character' && <CharacterStatus />}
       {view === 'devlog' && <DevLog />}
     </Shell>
+    {showEntry && <EntryOverlay onEnter={() => setShowEntry(false)} />}
   </ClickSpark>
 }
 
