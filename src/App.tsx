@@ -112,11 +112,11 @@ function Home({ go }: { go: (v: View) => void }) {
     <section className="hero dashboard-hero">
       <div className="hero-copy"><p className="eyebrow">XI–III / CURRENT SAVE</p><h1>{site.greeting}<span className="dot">.</span></h1><p className="intro">I am the <span>{site.identity}</span>, {site.identityEn}.<br />Searching the radio universe for questions, signals, and answers.</p></div>
       <div className="status-deck">
-        <div className="you-are-here"><div className="pulse-ring"><CircleDot size={25} /></div><p className="label">YOU ARE HERE / CURRENT LOCATION</p><h2>{site.location}</h2><span>Research Setup → FAST Data Processing → Validated Analysis</span><button onClick={() => go('map')}>Locate on Research Map <ArrowRight size={15} /></button></div>
+        <div className="you-are-here"><div className="pulse-ring"><CircleDot size={25} /></div><p className="label">YOU ARE HERE / CURRENT LOCATION</p><h2>{site.location}</h2><span>Research Setup → FAST Data Processing → Science Analysis</span><button onClick={() => go('map')}>Locate on Research Map <ArrowRight size={15} /></button></div>
         <div className="mini-character"><span>SUBJECT XIII</span><strong>LV. 0{site.level}</strong><small>{site.exp} / {site.nextLevelExp} EXP</small></div>
       </div>
     </section>
-    <section className="ticker"><span>{site.status}</span><span>YOU ARE HERE · FAST DATA</span><span>NEXT · DATA REVIEW</span><span>1420.405 MHz</span></section>
+    <section className="ticker"><span>{site.status}</span><span>YOU ARE HERE · FAST DATA</span><span>NEXT · SCIENCE ANALYSIS</span><span>1420.405 MHz</span></section>
     <section className="section science-signal">
       <figure className="spin-flip-figure">
         <div className="spin-flip-image"><img src={hydrogenSpinFlip} alt="Diagram of the neutral hydrogen proton-electron spin-flip transition emitting a 21 cm photon" /></div>
@@ -237,8 +237,8 @@ function CharacterStatus() {
         </dl>
       </header>
       <div className="character-lists">
-        <section className="status-list main-status"><p className="label">MAIN QUEST</p><label><span className="status-box" />Process FAST data</label><small>{site.mainQuest}</small></section>
-        <section className="status-list"><p className="label">ACTIVE QUESTS</p><label><span className="status-box" />Review the FAST dataset</label><label><span className="status-box" />Document FAST data processing</label><label><span className="status-box" />Prepare a reproducible figure</label><label><span className="status-box" />Maintain a reproducible workspace</label></section>
+        <section className="status-list main-status"><p className="label">MAIN QUEST</p><label><span className="status-box" />Enter FAST scientific analysis</label><small>{site.mainQuest}</small></section>
+        <section className="status-list"><p className="label">ACTIVE QUESTS</p><label className="checked"><span className="status-box"><Check size={12} /></span>Complete the FAST processing checkpoint</label><label><span className="status-box" />Prepare the first scientific analysis</label><label><span className="status-box" />Maintain a reproducible workspace</label><label><span className="status-box" />Keep unfinished results private</label></section>
         <section className="status-list"><p className="label">UNLOCKED SKILLS</p><label className="checked"><span className="status-box"><Check size={12} /></span>Python</label><label className="checked"><span className="status-box"><Check size={12} /></span>Linux / Command Line</label><label className="checked"><span className="status-box"><Check size={12} /></span>Version Control</label><label className="checked"><span className="status-box"><Check size={12} /></span>FAST Data Structure</label><label className="checked"><span className="status-box"><Check size={12} /></span>Data Processing</label><label className="checked"><span className="status-box"><Check size={12} /></span>Quality Control</label><label><span className="status-box" />Validated Results</label><label><span className="status-box" />Scientific Interpretation</label></section>
       </div>
     </div>
@@ -260,10 +260,11 @@ function Achievements() {
     { code: 'A-009', title: 'Cross-Device Lab Restored', note: 'Restored a portable research environment after a system rebuild.', date: '2026.07', unlocked: true },
     { code: 'A-010', title: 'FAST Dataset Review', note: 'Completed a review pass over the current FAST dataset.', date: '2026.08', unlocked: true },
     { code: 'A-011', title: 'Diagnostic Figure', note: 'Prepared an inspectable figure for a FAST data-processing checkpoint.', date: '2026.08', unlocked: true },
-    { code: 'A-012', title: 'Approved Result', note: 'Publish an approved scientific result after private processing and review.', date: 'LOCKED', unlocked: false },
-    { code: 'A-013', title: 'Validated Analysis', note: 'Complete a validated FAST data analysis.', date: 'LOCKED', unlocked: false },
-    { code: 'A-014', title: 'Research Question', note: 'Define a public, approved scientific question.', date: 'LOCKED', unlocked: false },
-    { code: 'A-015', title: 'First Author', note: 'Complete the first first-author paper.', date: 'BOSS', unlocked: false },
+    { code: 'A-012', title: 'FAST Processing Checkpoint', note: 'Completed an initial FAST data-processing checkpoint and prepared to enter scientific analysis.', date: '2026.09', unlocked: true },
+    { code: 'A-013', title: 'Approved Result', note: 'Publish an approved scientific result after private processing and review.', date: 'LOCKED', unlocked: false },
+    { code: 'A-014', title: 'Validated Analysis', note: 'Complete a validated FAST data analysis.', date: 'LOCKED', unlocked: false },
+    { code: 'A-015', title: 'Research Question', note: 'Define a public, approved scientific question.', date: 'LOCKED', unlocked: false },
+    { code: 'A-016', title: 'First Author', note: 'Complete the first first-author paper.', date: 'BOSS', unlocked: false },
   ]
   return <section className="workspace section"><PageHead code="04" title="Achievements" subtitle="Evidence-backed milestones from the research journey." /><div className="achievement-grid">{achievements.map((a, i) => <article className={`achievement-card ${a.unlocked ? 'unlocked' : 'locked'}`} key={a.code}><div className="achievement-medal">{a.unlocked ? <Award /> : <LockKeyhole />}</div><span>{a.code} · {a.date}</span><h2>{a.title}</h2><p>{a.note}</p><small>{a.unlocked ? `UNLOCKED · +${100 + i * 40} EXP` : 'PREREQUISITE NOT MET'}</small></article>)}</div></section>
 }
@@ -283,6 +284,7 @@ function KnowledgeBase() {
     { code: 'CAL-002', title: 'Data Quality Review', category: 'METHOD', note: 'General checks used to review data quality before interpretation.', progress: 'IN PROGRESS' },
     { code: 'CAL-003', title: 'Research Record', category: 'DATA', note: 'Dates, checkpoints, assumptions, and diagnostic outputs kept for private review.', progress: 'IN PROGRESS' },
     { code: 'TRACK-001', title: 'FAST Tracking Dataset', category: 'DATA', note: 'Ongoing processing of a FAST tracking dataset.', progress: 'IN PROGRESS' },
+    { code: 'FAST-002', title: 'FAST Processing Checkpoint', category: 'METHOD', note: 'Initial processing checkpoint complete; the next stage is scientific analysis.', progress: 'CURRENT' },
     { code: 'COURSE-01', title: 'Pattern Recognition & Machine Learning', category: 'COURSEWORK', note: 'Pattern classification, feature extraction, and foundational machine-learning methods.', progress: 'COMPLETED' },
     { code: 'COURSE-02', title: 'Radiative Processes in Astrophysics', category: 'COURSEWORK', note: 'Radiation mechanisms, radiative transfer, and astrophysical applications.', progress: 'COMPLETED' },
     { code: 'COURSE-03', title: 'Foundations of Stellar Physics', category: 'COURSEWORK', note: 'Stellar structure, evolution, and fundamental physical processes.', progress: 'COMPLETED' },
@@ -301,6 +303,7 @@ function KnowledgeBase() {
 
 function DevLog() {
   const logs = [
+    { version: 'v0.7', date: '2026-09-07', title: 'FAST Processing Checkpoint', items: ['Completed an initial FAST data-processing checkpoint', 'Prepared the project to move into scientific analysis', 'Kept unfinished scientific results private'] },
     { version: 'v0.6', date: '2026-08-16', title: 'FAST Data Processing Update', items: ['Updated the public status to FAST data processing', 'Removed unpublished methods, internal workflow details, and specific dataset identifiers', 'Kept unfinished scientific results private'] },
     { version: 'v0.5', date: '2026-07-27', title: 'Research Progress Update', items: ['Updated the public status to ongoing FAST data processing', 'Generalized research notes and dataset descriptions for public viewing', 'Kept internal infrastructure and unpublished details private'] },
     { version: 'v0.4', date: '2026-07-12', title: 'Rebuilt the Site Architecture', items: ['Created eight primary views', 'Merged Progression into Character Status', 'Added Achievements, Knowledge Base, and Dev Log'] },
