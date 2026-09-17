@@ -106,9 +106,57 @@ function PageHead({ code, title, subtitle }: { code: string; title: string; subt
   return <header className="page-head"><p className="eyebrow">{code} / RESEARCH NAVIGATION SYSTEM</p><Shuffle text={title} tag="h1" shuffleTimes={9} duration={560} /><p>{subtitle}</p></header>
 }
 
+function ThermalNoiseModule() {
+  const [temperature, setTemperature] = useState(72)
+  const noise = useMemo(() => {
+    let seed = 0x13a57
+    return Array.from({ length: 180 }, () => {
+      seed = (1664525 * seed + 1013904223) >>> 0
+      return (seed / 4294967296) * 2 - 1
+    })
+  }, [])
+  const palette = ['#67001f', '#b2182b', '#ef8a62', '#f7f7f7', '#67a9cf', '#2166ac', '#053061']
+  const color = useMemo(() => {
+    const position = (temperature / 150) * (palette.length - 1)
+    const index = Math.min(Math.floor(position), palette.length - 2)
+    const amount = position - index
+    const channel = (hex: string, offset: number) => parseInt(hex.slice(offset, offset + 2), 16)
+    const from = palette[index]
+    const to = palette[index + 1]
+    const rgb = [1, 3, 5].map(offset => Math.round(channel(from, offset) + (channel(to, offset) - channel(from, offset)) * amount))
+    return `rgb(${rgb.join(', ')})`
+  }, [temperature])
+  const points = useMemo(() => {
+    const amplitude = 20 + (temperature / 150) * 68
+    return noise.map((value, index) => `${(index / (noise.length - 1)) * 600},${110 - value * amplitude}`).join(' ')
+  }, [noise, temperature])
+  return <section className="thermal-noise-module section" style={{ '--thermal-accent': color } as React.CSSProperties}>
+    <div className="thermal-noise-copy">
+      <p className="label">INTERACTIVE MODEL / WHITE NOISE</p>
+      <h2>Thermal noise field</h2>
+      <p>Drag the temperature to reshape a seeded white-noise signal. The curve is an illustrative random-noise model, not an instrument measurement.</p>
+      <div className="thermal-readout"><span>NOISE AMPLITUDE</span><strong>{Math.round((temperature / 150) * 100)}%</strong></div>
+    </div>
+    <div className="thermal-wave-panel">
+      <svg className="thermal-wave" viewBox="0 0 600 220" role="img" aria-label={`White noise waveform at ${temperature} kelvin`}>
+        <path className="thermal-grid-line" d="M0 55H600 M0 110H600 M0 165H600" />
+        <polyline points={points} fill="none" stroke="var(--thermal-accent)" strokeWidth="2.4" strokeLinejoin="round" strokeLinecap="round" />
+      </svg>
+      <div className="thermal-axis"><span>LOW AMPLITUDE</span><span>RANDOM WHITE-NOISE SAMPLES</span><span>HIGH AMPLITUDE</span></div>
+    </div>
+    <div className="thermal-control">
+      <div className="thermal-control-head"><span className="label">TEMPERATURE</span><output aria-live="polite">{temperature} K</output></div>
+      <input aria-label="Temperature in kelvin" type="range" min="0" max="150" step="1" value={temperature} onChange={event => setTemperature(Number(event.target.value))} />
+      <div className="thermal-scale"><span>0 K</span><span>75 K</span><span>150 K</span></div>
+      <div className="thermal-color-key"><i /> <span>RED → BLUE-WHITE</span></div>
+    </div>
+  </section>
+}
+
 function Home({ go }: { go: (v: View) => void }) {
   const next = quests.find(q => q.kind === 'MAIN')!
   return <>
+    <ThermalNoiseModule />
     <section className="hero dashboard-hero">
       <div className="hero-copy"><p className="eyebrow">XI–III / CURRENT SAVE</p><h1>{site.greeting}<span className="dot">.</span></h1><p className="intro">I am the <span>{site.identity}</span>, {site.identityEn}.<br />Searching the radio universe for questions, signals, and answers.</p></div>
       <div className="status-deck">
