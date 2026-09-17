@@ -106,14 +106,23 @@ function PageHead({ code, title, subtitle }: { code: string; title: string; subt
   return <header className="page-head"><p className="eyebrow">{code} / RESEARCH NAVIGATION SYSTEM</p><Shuffle text={title} tag="h1" shuffleTimes={9} duration={560} /><p>{subtitle}</p></header>
 }
 
+function createWhiteNoise(seed: number) {
+  return Array.from({ length: 180 }, () => {
+    seed = (1664525 * seed + 1013904223) >>> 0
+    return (seed / 4294967296) * 2 - 1
+  })
+}
+
 function ThermalNoiseModule() {
   const [temperature, setTemperature] = useState(72)
-  const noise = useMemo(() => {
-    let seed = 0x13a57
-    return Array.from({ length: 180 }, () => {
-      seed = (1664525 * seed + 1013904223) >>> 0
-      return (seed / 4294967296) * 2 - 1
-    })
+  const [noise, setNoise] = useState(() => createWhiteNoise(0x13a57))
+  useEffect(() => {
+    let tick = 0
+    const timer = window.setInterval(() => {
+      tick += 1
+      setNoise(createWhiteNoise((0x13a57 + tick * 0x9e3779b9) >>> 0))
+    }, 1000)
+    return () => window.clearInterval(timer)
   }, [])
   const palette = ['#67001f', '#b2182b', '#ef8a62', '#f7f7f7', '#67a9cf', '#2166ac', '#053061']
   const color = useMemo(() => {
@@ -134,7 +143,7 @@ function ThermalNoiseModule() {
     <div className="thermal-noise-copy">
       <p className="label">INTERACTIVE MODEL / WHITE NOISE</p>
       <h2>Thermal noise field</h2>
-      <p>Drag the temperature to reshape a seeded white-noise signal. The curve is an illustrative random-noise model, not an instrument measurement.</p>
+      <p>Drag the temperature to scale a white-noise signal that refreshes every second. The curve is an illustrative random-noise model, not an instrument measurement.</p>
       <div className="thermal-readout"><span>NOISE AMPLITUDE</span><strong>{Math.round((temperature / 150) * 100)}%</strong></div>
     </div>
     <div className="thermal-wave-panel">
